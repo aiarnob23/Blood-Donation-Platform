@@ -2,15 +2,26 @@
 
 import Link from "next/link";
 import { useContext } from "react";
-
-import styles from "./Navbar.module.css";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function Navbar() {
-//   if (!authContext) {
-//     throw new Error("AuthContext is not provided.");
-//   }
+  const user = false;
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    throw new Error("AuthContext is not provided.");
+  }
+  const { GoogleSignIn } = authContext;
 
-    const user = false;
+  // handle google based signIn
+  const handleGoogleSignIn = async () => {
+    try {
+      const response = await GoogleSignIn();
+      console.log(response);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   const NavLinks = (
     <ul className="flex justify-center items-center gap-4">
@@ -58,9 +69,9 @@ export default function Navbar() {
         <div className="hidden lg:flex">{NavLinks}</div>
         <div>
           {!user ? (
-            <Link href="/auth/login" className="btn">
+            <button onClick={handleGoogleSignIn}>
               Login
-            </Link>
+            </button>
           ) : (
             <button className="btn">
               Logout
