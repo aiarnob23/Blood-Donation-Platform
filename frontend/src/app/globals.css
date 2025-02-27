@@ -5,10 +5,43 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+/* customized styles */
+.text-primary{
+  color:#bb0a1e;
+}
+.text-secondary{
+  color:#445360;
+}
+.text-soft-red{
+  color:#f04c4b;
+}
+.primary-btn {
+  background-color: #C62828; /* Strong red */
+  color: white; /* White text */
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover state */
+.primary-btn:hover {
+  background-color: #B71C1C; /* Dark red on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Disabled state */
+.primary-btn:disabled {
+  background-color: #F44336; /* Lighter red for disabled */
+  opacity: 0.6; /* Reduce opacity */
+  cursor: not-allowed;
 }
 
 @media (prefers-color-scheme: light) {

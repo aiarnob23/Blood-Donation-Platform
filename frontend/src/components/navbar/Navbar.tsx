@@ -29,10 +29,13 @@ export default function Navbar() {
         <Link href="/">Home</Link>
       </li>
       <li>
-        <Link href="/user/following">Donors</Link>
+        <Link href="/user/following">Donate</Link>
       </li>
       <li>
-        <Link href="/user/blogs/search">Posts</Link>
+        <Link href="/user/blogs/search">Request</Link>
+      </li>
+      <li>
+        <Link href="/user/blogs/search">Search</Link>
       </li>
       {/* {user && (
         <li>
@@ -43,7 +46,7 @@ export default function Navbar() {
   );
 
   return (
-    <nav className=" bg-opacity-30 backdrop-blur-sm shadow-sm">
+    <nav className="">
       <div className="max-w-[1280px] mx-auto flex items-center justify-between p-4">
         <div className="flex items-center gap-4">
           <button className="lg:hidden">
@@ -62,8 +65,8 @@ export default function Navbar() {
               />
             </svg>
           </button>
-          <Link href="/" className="text-2xl text-red-500 font-bold">
-            RedLife
+          <Link href="/" className="text-2xl text-primary font-bold">
+            Life Drop 🩸
           </Link>
         </div>
         <div className="hidden lg:flex">{NavLinks}</div>
