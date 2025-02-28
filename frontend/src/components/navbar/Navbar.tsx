@@ -40,7 +40,7 @@ export default function Navbar() {
         <Link href="/user/following">Donate</Link>
       </li>
       <li>
-        <Link href="/user/blogs/search">Request</Link>
+        <Link href="/request">Request</Link>
       </li>
       <li>
         <Link href="/search">Search</Link>
