@@ -3,7 +3,11 @@ import { Types } from "mongoose";
 export type TUser = {
   name: string;
   blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
-  age: number;
+  dob: {
+    day: string;
+    month: string;
+    year: string;
+  };
   gender: "Male" | "Female" | "Others";
   phone: string;
   nid: string;
@@ -14,10 +18,12 @@ export type TUser = {
   critical_disease_description?: string;
   posts?: Types.ObjectId[];
   conversation?: Types.ObjectId[];
-  isAvailableForDonation: boolean;
+  isAvailableForDonation?: boolean;
   notificationPreference: "Yes" | "No";
-  donation_eligibility:
+  donation_eligibility?:
     | "Eligible"
     | "Temporarily Ineligible"
     | "Permanently Ineligible";
+  role: "Donor" | "Recipient" | "Both";
+  isRegistered?: boolean;
 };

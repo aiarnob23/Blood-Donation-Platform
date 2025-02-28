@@ -44,10 +44,28 @@
   cursor: not-allowed;
 }
 
+/*  customized checkbox styles */
+
+.customized-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: white;
+  position: relative;
+}
+
+.customized-checkbox:checked {
+   background-color: #d34747; 
+}
+
+
 @media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff; 
+    --foreground: #000000; 
   }
 }
 

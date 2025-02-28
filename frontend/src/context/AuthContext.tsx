@@ -1,9 +1,6 @@
 "use client";
 import {
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
   UserCredential,
@@ -18,10 +15,7 @@ import auth from "@/firebase/firebase.config";
 //Type for the context
 interface AuthContextType {
   GoogleSignIn: () => Promise<UserCredential>;
-  EmailPassSignUp: (email: string, password: string) => Promise<UserCredential>;
-  EmailPassLogIn: (email: string, password: string) => Promise<UserCredential>;
   logOut: () => Promise<void>;
-  ResetPassword: (email: string) => Promise<void>;
   user: any;
   loading: boolean;
 }
@@ -40,36 +34,22 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const GoogleSignIn = async () => {
     return await signInWithPopup(auth, provider);
   };
-  //Email-Password SignUp
-  const EmailPassSignUp = async (email: string, password: string) => {
-    return await createUserWithEmailAndPassword(auth, email, password);
-  };
-  //Email-Password LogIn
-  const EmailPassLogIn = async (email: string, password: string) => {
-    return await signInWithEmailAndPassword(auth, email, password);
-  };
   //Sign-Out
   const logOut = async () => {
     return await signOut(auth);
   };
-  //Password-reset
-  const ResetPassword = async (email: string) => {
-    return await sendPasswordResetEmail(auth, email);
-  };
+
 
   //onAuth state change handler
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      //setUser(currentUser as any);
+      setUser(currentUser as any);
       setLoading(false);
       if (currentUser) {
-        // setUser(currentUser?.email);
-        // console.log(currentUser);
-        // const email: string = currentUser?.email || "";
-        // const res = await baseUrl.post("auth/login", { email });
-        // const token = res?.data?.data;
-        // Cookies.set("accessToken", token, { expires: 7 });
-        // Cookies.set("email", email, { expires: 7 });
+         setUser(currentUser?.email);
+         console.log(currentUser);
+         const email: string = currentUser?.email || "";
+         Cookies.set("userEmail", email, { expires: 14 });
       }
       if (!currentUser) {
         setLoading(false);
@@ -81,12 +61,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   // auth info
   const authInfo: AuthContextType = {
     GoogleSignIn,
-    EmailPassSignUp,
-    EmailPassLogIn,
     logOut,
     user,
     loading,
-    ResetPassword,
   };
 
   //return

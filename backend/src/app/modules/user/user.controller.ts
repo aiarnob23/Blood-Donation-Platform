@@ -6,7 +6,10 @@ import { userServices } from "./user.service";
 //create new user
 const RegisterUser = catchAsync((req, res) => {
     const payload = req?.body;
+    console.log(req?.body);
+    console.log(payload);
     const result = userServices.registerNewUser(payload);
+
     
     sendResponse(res, {
         success: true,

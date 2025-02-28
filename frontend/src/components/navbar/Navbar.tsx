@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
+import { getAdditionalUserInfo } from "firebase/auth";
+import { useRouter } from "next/navigation";
+
+
 
 export default function Navbar() {
   const user = false;
@@ -11,12 +15,16 @@ export default function Navbar() {
     throw new Error("AuthContext is not provided.");
   }
   const { GoogleSignIn } = authContext;
+  const router = useRouter();
 
   // handle google based signIn
   const handleGoogleSignIn = async () => {
     try {
       const response = await GoogleSignIn();
-      console.log(response);
+      const additionalUserInfo =getAdditionalUserInfo(response);
+      if (additionalUserInfo?.isNewUser) {
+        router.push('/auth/register');
+      }
     }
     catch (error) {
       console.log(error);
@@ -35,7 +43,7 @@ export default function Navbar() {
         <Link href="/user/blogs/search">Request</Link>
       </li>
       <li>
-        <Link href="/user/blogs/search">Search</Link>
+        <Link href="/search">Search</Link>
       </li>
       {/* {user && (
         <li>
