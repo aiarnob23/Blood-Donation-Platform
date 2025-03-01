@@ -3,10 +3,11 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { userRoutes } from "./app/modules/user/user.routes";
+import { postRoutes } from "./app/modules/post/post.route";
 
 const app: Application = express();
 
-// Set up Socket.IO server attached to the Express server
+// ---------------------Socket io servier---------------//
 const io = new Server(4001, {
   cors: {
     origin: "*", 
@@ -101,6 +102,8 @@ io.on("connection", (socket) => {
   });
 });
 
+// ---------------Basic backend server----------------------//
+
 // Middleware
 app.use(cookieParser());
 app.use(express.json());
@@ -108,6 +111,7 @@ app.use(cors());
 
 // API Routes
 app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
 
 // Default route
 app.get("/", (req: Request, res: Response) => {

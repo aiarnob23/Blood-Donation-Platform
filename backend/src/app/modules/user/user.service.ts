@@ -8,6 +8,13 @@ const registerNewUser = async (payload: TUser) => {
     return result;
 }
 
+//get user info
+const getUserInfo = async (email: string) => {
+    const result = await User.find({ email: email });
+    return result;
+}
+
 export const userServices = {
     registerNewUser,
+    getUserInfo,
 }

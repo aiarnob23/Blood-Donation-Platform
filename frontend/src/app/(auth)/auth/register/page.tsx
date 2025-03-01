@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { registerNewUser } from "@/service/AuthService";
+import { registerNewUser } from "@/service/authService";
 import { useRouter } from "next/navigation";
 import { successMessage } from "@/utils/alertMessages";
 

@@ -1,8 +1,8 @@
 "use client";
+import { postBloodRequest } from "@/service/bloodService";
 import { useState, ChangeEvent, FormEvent } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
 
 export default function BloodRequestForm() {
   const [formData, setFormData] = useState({
@@ -28,10 +28,11 @@ export default function BloodRequestForm() {
     setFormData({ ...formData, dateNeeded: date });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
     alert("Blood request submitted successfully!");
+    await postBloodRequest(formData);
   };
 
   return (
@@ -109,6 +110,7 @@ export default function BloodRequestForm() {
             selected={formData.dateNeeded}
             onChange={handleDateChange}
             dateFormat="d MMMM yyyy"
+            required
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
             placeholderText="Pick a date"
             minDate={new Date()}
