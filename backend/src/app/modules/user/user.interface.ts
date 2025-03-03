@@ -4,20 +4,22 @@ export type TUser = {
   name: string;
   blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   dob: {
-    day: string;
-    month: string;
-    year: string;
+    day: number;
+    month: number;
+    year: number;
   };
   gender: "Male" | "Female" | "Others";
   phone: string;
-  nid: string;
+  isPhoneNumberVisible: boolean;
+  nid: number;
   address: string;
   email: string;
-  smoker: boolean;
+  isSmoker: boolean;
   critical_disease: boolean;
   critical_disease_description?: string;
   posts?: Types.ObjectId[];
   conversation?: Types.ObjectId[];
+  donationHistory?: Types.ObjectId[];
   isAvailableForDonation?: boolean;
   notificationPreference: "Yes" | "No";
   donation_eligibility?:
@@ -26,4 +28,6 @@ export type TUser = {
     | "Permanently Ineligible";
   role: "Donor" | "Recipient" | "Both";
   isRegistered?: boolean;
+  isVerified?: false;
+  isBanned?: false;
 };

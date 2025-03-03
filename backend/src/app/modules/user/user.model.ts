@@ -1,7 +1,6 @@
 import mongoose, { model, Schema, Types } from "mongoose";
 import { TUser } from "./user.interface";
 
-
 const userSchema = new Schema<TUser>(
   {
     name: { type: String, required: true },
@@ -11,9 +10,9 @@ const userSchema = new Schema<TUser>(
       required: true,
     },
     dob: {
-      day: { type: String, required: true },
-      month: { type: String, required: true },
-      year: { type: String, required: true },
+      day: { type: Number, required: true },
+      month: { type: Number, required: true },
+      year: { type: Number, required: true },
     },
     gender: {
       type: String,
@@ -21,10 +20,10 @@ const userSchema = new Schema<TUser>(
       required: true,
     },
     phone: { type: String, required: true },
-    nid: { type: String, required: true },
+    nid: { type: Number, required: true },
     address: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    smoker: { type: Boolean, required: true },
+    isSmoker: { type: Boolean, required: true },
     critical_disease: { type: Boolean, required: true },
     critical_disease_description: { type: String, required: false },
     posts: [
@@ -58,9 +57,11 @@ const userSchema = new Schema<TUser>(
       required: true,
     },
     isRegistered: { type: Boolean, default: true },
+    isVerified: { type: Boolean, default: false },
+    isPhoneNumberVisible: { type: Boolean, required: true },
+    isBanned: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
-
 
 export const User = model<TUser>("User", userSchema);

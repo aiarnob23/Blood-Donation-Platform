@@ -10,18 +10,17 @@ export default function Register() {
   const [formData, setFormData] = useState({
     name: "",
     blood_group: "A+",
-    dob: { day: "", month: "", year: "" },
+    dob:{ day: 1, month: 1, year: 2000 },
     gender: "Male",
     phone: "+880",
-    nid: "",
+    isPhoneNumberVisible:true,
+    nid: null,
     address: "",
     email: userEmail,
-    smoker: false,
+    isSmoker: false,
     critical_disease: false,
     critical_disease_description: "",
-    isAvailableForDonation: true,
     notificationPreference: "Yes",
-    donation_eligibility: "Eligible",
     role: "Both",
   });
 
@@ -186,6 +185,18 @@ export default function Register() {
           />
         </div>
 
+        {/* phone number privacy check */}
+        <div className="form-group flex items-center space-x-2">
+          <input
+            type="checkbox"
+            name="isPhoneNumberVisible"
+            checked={formData.isPhoneNumberVisible === true}
+            onChange={handleChange}
+            className="h-5 w-5"
+          />
+          <span className="text-lg">Show contact number to everyone?</span>
+        </div>
+
         {/* NID */}
         <div className="form-group">
           <label htmlFor="nid" className="block text-lg font-medium mb-2">
@@ -194,7 +205,6 @@ export default function Register() {
           <input
             type="text"
             name="nid"
-            value={formData.nid}
             onChange={handleChange}
             className="w-full p-3 border border-gray-300 rounded-lg"
             required
@@ -220,8 +230,8 @@ export default function Register() {
         <div className="form-group flex items-center space-x-2">
           <input
             type="checkbox"
-            name="smoker"
-            checked={formData.smoker}
+            name="isSmoker"
+            checked={formData.isSmoker}
             onChange={handleChange}
             className="h-5 w-5 customized-checkbox"
           />

@@ -14,7 +14,14 @@ const getUserInfo = async (email: string) => {
     return result;
 }
 
+//update user info
+const updateUserInfo = async (id: any, payload:any) => {
+    const result = await User.findByIdAndUpdate({ _id: id }, { payload });
+    console.log(result);
+}
+
 export const userServices = {
     registerNewUser,
     getUserInfo,
+    updateUserInfo,
 }
