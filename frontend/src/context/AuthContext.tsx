@@ -46,7 +46,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(currentUser as any);
       setLoading(false);
       if (currentUser) {
-         setUser(currentUser?.email);
+         setUser(currentUser);
          console.log(currentUser);
          const email: string = currentUser?.email || "";
          Cookies.set("userEmail", email, { expires: 14 });

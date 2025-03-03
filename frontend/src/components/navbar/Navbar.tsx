@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
@@ -9,12 +8,11 @@ import { useRouter } from "next/navigation";
 
 
 export default function Navbar() {
-  const user = false;
   const authContext = useContext(AuthContext);
   if (!authContext) {
     throw new Error("AuthContext is not provided.");
   }
-  const { GoogleSignIn } = authContext;
+  const { GoogleSignIn , user } = authContext;
   const router = useRouter();
 
   // handle google based signIn
@@ -45,11 +43,6 @@ export default function Navbar() {
       <li>
         <Link href="/search">Search</Link>
       </li>
-      {/* {user && (
-        <li>
-          <Link href="/user/profile">Profile</Link>
-        </li>
-      )} */}
     </ul>
   );
 
@@ -80,13 +73,16 @@ export default function Navbar() {
         <div className="hidden lg:flex">{NavLinks}</div>
         <div>
           {!user ? (
-            <button onClick={handleGoogleSignIn}>
-              Login
-            </button>
+            <button onClick={handleGoogleSignIn}>Login</button>
           ) : (
-            <button className="btn">
-              Logout
-            </button>
+              <>
+                {
+                  user && <Link href='/self-profile' className="flex items-center gap-2">
+                    <img className="h-8 w-8 rounded-[50%]" src={user?.photoURL} alt={user?.photoURL} />
+                    <div>{user?.displayName}</div>
+                  </Link>
+                }
+            </>
           )}
         </div>
       </div>

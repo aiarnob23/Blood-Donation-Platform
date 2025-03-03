@@ -13,10 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <div>
-          <Navbar/>
-          {children}
-          <Footer/>
+    <div>
+      <Navbar />
+      <div className="max-w-[1280px] mx-auto">{children}</div>
+      <Footer />
     </div>
   );
 }
