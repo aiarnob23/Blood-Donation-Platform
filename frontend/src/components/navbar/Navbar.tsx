@@ -6,7 +6,6 @@ import { getAdditionalUserInfo } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 
-
 export default function Navbar() {
   const authContext = useContext(AuthContext);
   if (!authContext) {
@@ -14,6 +13,7 @@ export default function Navbar() {
   }
   const { GoogleSignIn , user } = authContext;
   const router = useRouter();
+  const unReadMessages = 4;
 
   // handle google based signIn
   const handleGoogleSignIn = async () => {
@@ -43,6 +43,16 @@ export default function Navbar() {
       <li>
         <Link href="/search">Search</Link>
       </li>
+      {user && (
+        <Link className="flex items-center gap-[4px]" href="/chat">
+          Messages{" "}
+          {unReadMessages > 0 && (
+            <span className="text-white rounded-full w-[18px] h-[18px] flex justify-center items-center bg-red-600 text-[12px] font-medium">
+              {unReadMessages}
+            </span>
+          )}
+        </Link>
+      )}
     </ul>
   );
 

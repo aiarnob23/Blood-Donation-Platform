@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
 import { userRoutes } from "./app/modules/user/user.routes";
 import { postRoutes } from "./app/modules/post/post.route";
+import { conversationRoutes } from "./app/modules/conversation/conversation.route";
 
 const app: Application = express();
 
@@ -112,6 +113,7 @@ app.use(cors());
 // API Routes
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/conversation", conversationRoutes);
 
 // Default route
 app.get("/", (req: Request, res: Response) => {
