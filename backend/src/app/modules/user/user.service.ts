@@ -8,9 +8,15 @@ const registerNewUser = async (payload: TUser) => {
     return result;
 }
 
-//get user info
+//get user info (self)
 const getUserInfo = async (email: string) => {
     const result = await User.find({ email: email });
+    return result;
+}
+
+//get user info (others)
+const viewUsersDetails = async (id: any) => {
+    const result = await User.findById(id, { conversation: 0, notificationPreference: 0 });
     return result;
 }
 
@@ -20,8 +26,16 @@ const updateUserInfo = async (id: any, payload:any) => {
     console.log(result);
 }
 
+//get users chat lists
+const getUserChatLists = async (email: any) => {
+    const result = await User.findOne({email:email} , {conversation:1}).populate('conversation');
+    return result;
+}
+
 export const userServices = {
     registerNewUser,
     getUserInfo,
     updateUserInfo,
+    viewUsersDetails,
+    getUserChatLists,
 }

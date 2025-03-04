@@ -19,7 +19,7 @@ export default function Navbar() {
   const handleGoogleSignIn = async () => {
     try {
       const response = await GoogleSignIn();
-      const additionalUserInfo =getAdditionalUserInfo(response);
+      const additionalUserInfo=getAdditionalUserInfo(response);
       if (additionalUserInfo?.isNewUser) {
         router.push('/auth/register');
       }
@@ -88,7 +88,7 @@ export default function Navbar() {
               <>
                 {
                   user && <Link href='/self-profile' className="flex items-center gap-2">
-                    <img className="h-8 w-8 rounded-[50%]" src={user?.photoURL} alt={user?.photoURL} />
+                    <img className="h-8 w-8 rounded-[50%]" src={user?.photoURL} alt='profile' />
                     <div>{user?.displayName}</div>
                   </Link>
                 }

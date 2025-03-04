@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { Server } from "socket.io";
-import { userRoutes } from "./app/modules/user/user.routes";
+import { userRoutes } from "./app/modules/user/user.route";
 import { postRoutes } from "./app/modules/post/post.route";
 import { conversationRoutes } from "./app/modules/conversation/conversation.route";
 
