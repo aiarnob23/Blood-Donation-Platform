@@ -1,4 +1,5 @@
 "use client";
+import Cookies from "js-cookie";
 import { useContext, useState } from "react";
 import { registerNewUser } from "@/service/authService";
 import { useRouter } from "next/navigation";
@@ -6,12 +7,12 @@ import { successMessage } from "@/utils/alertMessages";
 import { AuthContext } from "@/context/AuthContext";
 
 export default function Register() {
+  const userEmail = Cookies.get("userEmail");
   const authContext = useContext(AuthContext);
   if (!authContext) {
     throw new Error("AuthContext is not provided.");
   }
   const { user } = authContext;
-  const userEmail = user?.email;
   const photoURL = user?.photoURL || "";
   const [formData, setFormData] = useState({
     name: "",
