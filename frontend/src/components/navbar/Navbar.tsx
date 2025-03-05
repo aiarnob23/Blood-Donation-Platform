@@ -6,108 +6,200 @@ import { getAdditionalUserInfo } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { getUersProfileImage } from "@/service/userService";
 
-
 export default function Navbar() {
   const authContext = useContext(AuthContext);
   if (!authContext) {
     throw new Error("AuthContext is not provided.");
   }
-  const { GoogleSignIn , user } = authContext;
+  const { GoogleSignIn, user } = authContext;
   const router = useRouter();
   const unReadMessages = 4;
-  const [profileURL, setProfileURL] = useState<any>(null);
+  const [profileURL, setProfileURL] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  //handle users profile image url get
   useEffect(() => {
     const getUsersProfileURL = async () => {
       const result = await getUersProfileImage(user?.email);
       setProfileURL(result?.photoURL);
-    }
+    };
     getUsersProfileURL();
-  },[user])
+  }, [user?.email]);
 
-  // handle google based signIn
   const handleGoogleSignIn = async () => {
     try {
       const response = await GoogleSignIn();
-      const additionalUserInfo=getAdditionalUserInfo(response);
+      const additionalUserInfo = getAdditionalUserInfo(response);
       if (additionalUserInfo?.isNewUser) {
-        router.push('/auth/register');
+        router.push("/auth/register");
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  const NavLinks = (
-    <ul className="flex justify-center items-center gap-4">
-      <li>
-        <Link href="/">Home</Link>
-      </li>
-      <li>
-        <Link href="/user/following">Donate</Link>
-      </li>
-      <li>
-        <Link href="/request">Request</Link>
-      </li>
-      <li>
-        <Link href="/search">Search</Link>
-      </li>
-      {user && (
-        <Link className="flex items-center gap-[4px]" href="/chat">
-          Messages{" "}
-          {unReadMessages > 0 && (
-            <span className="text-white rounded-full w-[18px] h-[18px] flex justify-center items-center bg-red-600 text-[12px] font-medium">
-              {unReadMessages}
-            </span>
-          )}
-        </Link>
-      )}
-    </ul>
-  );
+  // ✅ Centralized Menu Items
+  const menuItems = [
+    { name: "Home", href: "/" },
+    { name: "Donate", href: "/user/following" },
+    { name: "Request", href: "/request" },
+    { name: "Search", href: "/search" },
+    { name: "Appointments", href: "/appointments" }, // ✅ Added Appointments Link
+  ];
 
   return (
-    <nav className="">
-      <div className="max-w-[1280px] mx-auto flex items-center justify-between p-4">
-        <div className="flex items-center gap-4">
-          <button className="lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+    <nav className="bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <Link href="/" className="text-2xl text-primary font-bold">
+              Life Drop 🩸
+            </Link>
+          </div>
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex space-x-6">
+            {menuItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="hover:text-red-500"
+              >
+                {item.name}
+              </Link>
+            ))}
+            {user && (
+              <Link
+                href="/chat"
+                className="flex items-center gap-1 hover:text-red-500"
+              >
+                Messages{" "}
+                {unReadMessages > 0 && (
+                  <span className="bg-red-600 text-white text-xs rounded-full w-5 h-5 flex justify-center items-center">
+                    {unReadMessages}
+                  </span>
+                )}
+              </Link>
+            )}
+          </div>
+
+          {/* User Profile / Login */}
+          <div className="hidden lg:flex">
+            {!user ? (
+              <button
+                onClick={handleGoogleSignIn}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                Login
+              </button>
+            ) : (
+              <Link href="/self-profile" className="flex items-center gap-2">
+                <img
+                  className="h-8 w-8 rounded-full"
+                  src={profileURL || "/images/profile/default-profile.png"}
+                  alt="profile"
+                />
+                <div>{user?.displayName}</div>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="focus:outline-none"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </button>
-          <Link href="/" className="text-2xl text-primary font-bold">
-            Life Drop 🩸
-          </Link>
-        </div>
-        <div className="hidden lg:flex">{NavLinks}</div>
-        <div>
-          {!user ? (
-            <button onClick={handleGoogleSignIn}>Login</button>
-          ) : (
-            <>
-              {user && (
-                <Link href="/self-profile" className="flex items-center gap-2">
-                  <img
-                    className="h-8 w-8 rounded-[50%]"
-                    src={profileURL || "images/profile/default-profile.png"}
-                    alt="profile"
-                  />
-                  <div>{user?.displayName}</div>
-                </Link>
+              {menuOpen ? (
+                <svg
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              ) : (
+                <svg
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
               )}
-            </>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Sidebar Menu */}
+      <div
+        className={`fixed inset-y-0 right-0 w-64 bg-gray-100 shadow-lg transform ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        } transition-transform duration-300 ease-in-out z-50`}
+      >
+        <button
+          onClick={() => setMenuOpen(false)}
+          className="absolute top-4 right-4 text-gray-600 hover:text-black"
+        >
+          ✖
+        </button>
+        <div className="flex flex-col items-start p-6 space-y-4">
+          {menuItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              className="hover:text-red-500"
+            >
+              {item.name}
+            </Link>
+          ))}
+          {user && (
+            <Link
+              href="/chat"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-1 hover:text-red-500"
+            >
+              Messages{" "}
+              {unReadMessages > 0 && (
+                <span className="bg-red-600 text-white text-xs rounded-full w-5 h-5 flex justify-center items-center">
+                  {unReadMessages}
+                </span>
+              )}
+            </Link>
+          )}
+          {!user ? (
+            <button
+              onClick={handleGoogleSignIn}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              Login
+            </button>
+          ) : (
+            <Link
+              href="/self-profile"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2"
+            >
+              <img
+                className="h-8 w-8 rounded-full"
+                src={profileURL || "/images/profile/default-profile.png"}
+                alt="profile"
+              />
+              <div>{user?.displayName}</div>
+            </Link>
           )}
         </div>
       </div>

@@ -7,6 +7,7 @@ router.post("/register",userController.RegisterUser);
 router.get(`/info`, userController.selfProfileInfo);
 router.get(`/profile-view/:userId`, userController.getUserDetails);
 router.get(`/profile-image/:email`, userController.getUsersProfileImage);
+router.get(`/user-id/:email`, userController.getUsersId);
 // router.patch(`/update`,);
 router.get(`/chat-lists/:email`, userController.findUsersChatLists);
 export const userRoutes = router;

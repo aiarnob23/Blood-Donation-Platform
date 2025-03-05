@@ -38,6 +38,12 @@ const getUserChatLists = async (email: any) => {
     return result;
 }
 
+//get users _id using email 
+const getUsersId = async (email: string) => {
+    const result = await User.findOne({ email: email }, { _id: 1 });
+    return result;
+}
+
 export const userServices = {
   registerNewUser,
   getUserInfo,
@@ -45,4 +51,5 @@ export const userServices = {
   viewUsersDetails,
   getUserChatLists,
   getUsersDP,
+  getUsersId,
 };

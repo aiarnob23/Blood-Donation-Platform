@@ -92,10 +92,31 @@ const findUsersChatLists = catchAsync(async (req, res) => {
   });
 });
 
+//get users id
+const getUsersId = catchAsync(async (req, res) => {
+  const email = req?.params?.email;
+  if (!email) {
+    sendResponse(res, {
+      success: false,
+      statusCode: 400,
+      message: "Request error please try again after login",
+      data: null,
+    });
+  }
+  const result = await userServices.getUsersId(email);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "users ID fetched successfully",
+    data: result,
+  });
+})
+
 export const userController = {
   RegisterUser,
   selfProfileInfo,
   getUserDetails,
   findUsersChatLists,
   getUsersProfileImage,
+  getUsersId,
 };
