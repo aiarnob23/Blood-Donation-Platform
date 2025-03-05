@@ -20,6 +20,12 @@ const viewUsersDetails = async (id: any) => {
     return result;
 }
 
+//get users display-image
+const getUsersDP = async (email: string) => {
+    const result = await User.findOne({ email: email }, { photoURL: 1 });
+    return result;
+}
+
 //update user info
 const updateUserInfo = async (id: any, payload:any) => {
     const result = await User.findByIdAndUpdate({ _id: id }, { payload });
@@ -33,9 +39,10 @@ const getUserChatLists = async (email: any) => {
 }
 
 export const userServices = {
-    registerNewUser,
-    getUserInfo,
-    updateUserInfo,
-    viewUsersDetails,
-    getUserChatLists,
-}
+  registerNewUser,
+  getUserInfo,
+  updateUserInfo,
+  viewUsersDetails,
+  getUserChatLists,
+  getUsersDP,
+};

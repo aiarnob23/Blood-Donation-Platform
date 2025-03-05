@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { getAdditionalUserInfo } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { getUersProfileImage } from "@/service/userService";
 
 
 export default function Navbar() {
@@ -14,6 +15,16 @@ export default function Navbar() {
   const { GoogleSignIn , user } = authContext;
   const router = useRouter();
   const unReadMessages = 4;
+  const [profileURL, setProfileURL] = useState<any>(null);
+
+  //handle users profile image url get
+  useEffect(() => {
+    const getUsersProfileURL = async () => {
+      const result = await getUersProfileImage(user?.email);
+      setProfileURL(result?.photoURL);
+    }
+    getUsersProfileURL();
+  },[user])
 
   // handle google based signIn
   const handleGoogleSignIn = async () => {
@@ -85,13 +96,17 @@ export default function Navbar() {
           {!user ? (
             <button onClick={handleGoogleSignIn}>Login</button>
           ) : (
-              <>
-                {
-                  user && <Link href='/self-profile' className="flex items-center gap-2">
-                    <img className="h-8 w-8 rounded-[50%]" src={user?.photoURL} alt='profile' />
-                    <div>{user?.displayName}</div>
-                  </Link>
-                }
+            <>
+              {user && (
+                <Link href="/self-profile" className="flex items-center gap-2">
+                  <img
+                    className="h-8 w-8 rounded-[50%]"
+                    src={profileURL || "images/profile/default-profile.png"}
+                    alt="profile"
+                  />
+                  <div>{user?.displayName}</div>
+                </Link>
+              )}
             </>
           )}
         </div>

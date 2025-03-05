@@ -7,7 +7,8 @@ export const getUsersChatLists = async (email: string) => {
     const chats = data?.data?.conversation;
     let chatLists = [];
     if (data?.data) {
-      
+      const conversationArray = data?.data?.conversation;
+      console.log(data?.data?.conversation);
     }
     return data?.data;
   } catch (error) {

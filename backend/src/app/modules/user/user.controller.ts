@@ -48,7 +48,28 @@ const getUserDetails = catchAsync(async (req, res) => {
     message: "User details found",
     data: result,
   });
-})
+});
+
+//get users display image
+const getUsersProfileImage = catchAsync(async (req, res) => {
+  const email = req?.params?.email as string;
+  if (!email) {
+    sendResponse(res, {
+      success: false,
+      statusCode: 400,
+      message: "No profile found!",
+      data: null,
+    });
+  }
+
+  const result = await userServices.getUsersDP(email);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Profile found",
+    data: result,
+  });
+});
 
 //get users chat lists
 const findUsersChatLists = catchAsync(async (req, res) => {
@@ -59,17 +80,16 @@ const findUsersChatLists = catchAsync(async (req, res) => {
       statusCode: 400,
       message: "Request error please try again after login",
       data: null,
-    })
+    });
   }
 
-    const result = await userServices.getUserChatLists(email);
-    sendResponse(res, {
-      success: true,
-      statusCode: 200,
-      message: "Chat lists fetched successfully",
-      data: result,
-    });
-  
+  const result = await userServices.getUserChatLists(email);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Chat lists fetched successfully",
+    data: result,
+  });
 });
 
 export const userController = {
@@ -77,4 +97,5 @@ export const userController = {
   selfProfileInfo,
   getUserDetails,
   findUsersChatLists,
+  getUsersProfileImage,
 };

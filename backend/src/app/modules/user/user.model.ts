@@ -20,6 +20,9 @@ const userSchema = new Schema<TUser>(
       required: true,
     },
     phone: { type: String, required: true },
+    photoURL: {
+      type:String
+    },
     nid: { type: Number, required: true },
     address: { type: String, required: true },
     email: { type: String, required: true, unique: true },

@@ -10,6 +10,7 @@ export type TUser = {
   };
   gender: "Male" | "Female" | "Others";
   phone: string;
+  photoURL: string;
   isPhoneNumberVisible: boolean;
   nid: number;
   address: string;
