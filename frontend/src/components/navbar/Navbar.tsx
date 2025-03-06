@@ -2,8 +2,6 @@
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import { getAdditionalUserInfo } from "firebase/auth";
-import { useRouter } from "next/navigation";
 import { getUersProfileImage } from "@/service/userService";
 
 export default function Navbar() {
@@ -11,8 +9,7 @@ export default function Navbar() {
   if (!authContext) {
     throw new Error("AuthContext is not provided.");
   }
-  const { GoogleSignIn, user } = authContext;
-  const router = useRouter();
+  const { user } = authContext;
   const unReadMessages = 4;
   const [profileURL, setProfileURL] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,25 +22,13 @@ export default function Navbar() {
     getUsersProfileURL();
   }, [user?.email]);
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const response = await GoogleSignIn();
-      const additionalUserInfo = getAdditionalUserInfo(response);
-      if (additionalUserInfo?.isNewUser) {
-        router.push("/auth/register");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // ✅ Centralized Menu Items
+  // Centralized Menu Items
   const menuItems = [
     { name: "Home", href: "/" },
     { name: "Donate", href: "/user/following" },
     { name: "Request", href: "/request" },
     { name: "Search", href: "/search" },
-    { name: "Appointments", href: "/appointments" }, // ✅ Added Appointments Link
+    { name: "Appointments", href: "/appointments" }, 
   ];
 
   return (
@@ -86,12 +71,12 @@ export default function Navbar() {
           {/* User Profile / Login */}
           <div className="hidden lg:flex">
             {!user ? (
-              <button
-                onClick={handleGoogleSignIn}
+              <Link
+                href='/auth/sign-in'
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
               >
-                Login
-              </button>
+                Sign In
+              </Link>
             ) : (
               <Link href="/self-profile" className="flex items-center gap-2">
                 <img
@@ -181,12 +166,12 @@ export default function Navbar() {
             </Link>
           )}
           {!user ? (
-            <button
-              onClick={handleGoogleSignIn}
+            <Link
+              href='/auth/sign-in'
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
               Login
-            </button>
+            </Link>
           ) : (
             <Link
               href="/self-profile"
