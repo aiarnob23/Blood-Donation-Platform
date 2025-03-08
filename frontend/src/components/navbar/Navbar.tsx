@@ -25,10 +25,10 @@ export default function Navbar() {
   // Centralized Menu Items
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "Donate", href: "/user/following" },
-    { name: "Request", href: "/request" },
+    ...(user ? [{ name: "Donate", href: "/user/following" }] : []),
+    ...(user ? [{ name: "Request", href: "/request" }] : []),
     { name: "Search", href: "/search" },
-    { name: "Appointments", href: "/appointments" }, 
+    ...(user ? [{ name: "Appointments", href: "/appointments" }] : []),
   ];
 
   return (
@@ -72,7 +72,7 @@ export default function Navbar() {
           <div className="hidden lg:flex">
             {!user ? (
               <Link
-                href='/auth/sign-in'
+                href="/auth/sign-in"
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
               >
                 Sign In
@@ -167,7 +167,7 @@ export default function Navbar() {
           )}
           {!user ? (
             <Link
-              href='/auth/sign-in'
+              href="/auth/sign-in"
               className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
               Login

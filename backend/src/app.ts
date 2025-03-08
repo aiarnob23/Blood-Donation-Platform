@@ -5,13 +5,15 @@ import { Server } from "socket.io";
 import { userRoutes } from "./app/modules/user/user.route";
 import { postRoutes } from "./app/modules/post/post.route";
 import { conversationRoutes } from "./app/modules/conversation/conversation.route";
+import { adminRoutes } from "./app/modules/admin/admin.route";
+import { appointmentRoutes } from "./app/modules/appointment/appointment.route";
 
 const app: Application = express();
 
 // ---------------------Socket io servier---------------//
 const io = new Server(4001, {
   cors: {
-    origin: "*", 
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -31,40 +33,40 @@ io.on("connection", (socket) => {
   // Extract the unique client ID from the connection query
   const clientId = socket.handshake.query.clientId as string;
   console.log(`User connected: ${socket.id} (Client ID: ${clientId})`);
-  
+
   // Store client information
   connectedClients[socket.id] = {
     socketId: socket.id,
     clientId: clientId,
-    rooms: []
+    rooms: [],
   };
-  
+
   // Handle room joining
   socket.on("join-room", async (room) => {
     socket.join(room);
-    
+
     // Add room to client's room list
     if (connectedClients[socket.id]) {
       connectedClients[socket.id].rooms.push(room.toString());
     }
-    
+
     console.log(`Client ${socket.id} (${clientId}) joined room ${room}`);
-    
+
     // Notify room members
-    io.to(room).emit("joinRoomNavigate", { 
-      room, 
-      socketId: socket.id,
-      clientId: clientId 
-    });
-    
-    // Send details of joined room
-    io.to(room).emit("joinedRoomsDetailsPass", { 
-      room, 
+    io.to(room).emit("joinRoomNavigate", {
+      room,
       socketId: socket.id,
       clientId: clientId,
-      connectedUsers: Object.values(connectedClients).filter(client => 
+    });
+
+    // Send details of joined room
+    io.to(room).emit("joinedRoomsDetailsPass", {
+      room,
+      socketId: socket.id,
+      clientId: clientId,
+      connectedUsers: Object.values(connectedClients).filter((client) =>
         client.rooms.includes(room.toString())
-      )
+      ),
     });
   });
 
@@ -76,13 +78,13 @@ io.on("connection", (socket) => {
       io.to(data.room).emit("message", {
         ...data,
         socketId: socket.id,
-        clientId: clientId
+        clientId: clientId,
       });
     } else {
       io.emit("message", {
         ...data,
         socketId: socket.id,
-        clientId: clientId
+        clientId: clientId,
       });
     }
   });
@@ -114,6 +116,8 @@ app.use(cors());
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/conversation", conversationRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/appointment", appointmentRoutes);
 
 // Default route
 app.get("/", (req: Request, res: Response) => {

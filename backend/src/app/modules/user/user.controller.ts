@@ -8,7 +8,6 @@ const RegisterUser = catchAsync(async (req, res) => {
   console.log(req?.body);
   console.log(payload);
   const result = await userServices.registerNewUser(payload);
-
   sendResponse(res, {
     success: true,
     statusCode: 200,
@@ -110,7 +109,18 @@ const getUsersId = catchAsync(async (req, res) => {
     message: "users ID fetched successfully",
     data: result,
   });
-})
+});
+
+//get donors lists
+const getDonorLists = catchAsync(async (req, res) => {
+  const result = await userServices.getDonorsLists();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "donors list fetched successfully",
+    data: result,
+  });
+});
 
 export const userController = {
   RegisterUser,
@@ -119,4 +129,5 @@ export const userController = {
   findUsersChatLists,
   getUsersProfileImage,
   getUsersId,
+  getDonorLists,
 };

@@ -1,3 +1,4 @@
+import { Appointment } from "../appointment/appointment.model";
 import { Post } from "../post/post.model";
 import { User } from "../user/user.model";
 
@@ -13,7 +14,15 @@ const getAllPosts = async () => {
   const result = await Post.find();
   return result;
 };
+
+//get all appointments
+const getAllAppointments = async () => {
+  const result = await Appointment.find();
+  return result;
+};
+
 export const adminServices = {
   getAllUsers,
   getAllPosts,
+  getAllAppointments,
 };

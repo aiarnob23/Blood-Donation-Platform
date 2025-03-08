@@ -24,7 +24,19 @@ const getUsersPosts = catchAsync(async (req, res) => {
   });
 });
 
+//get all appointments
+const getAllAppointments = catchAsync(async (req, res) => {
+  const result = await adminServices.getAllAppointments();
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Appointments fetched successfully",
+    data: result,
+  });
+});
+
 export const adminControllers = {
   getAllUsersList,
   getUsersPosts,
+  getAllAppointments,
 };

@@ -22,6 +22,7 @@ export default function SignIn() {
       if (additionalUserInfo?.isNewUser) {
         router.push("/auth/register");
       }
+      router.push("/home");
     } catch (error) {
       console.error(error);
     }
