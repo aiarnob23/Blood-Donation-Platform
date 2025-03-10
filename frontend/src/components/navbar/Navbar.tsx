@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { getUersProfileImage } from "@/service/userService";
+import logo from "../../../public/logo/logo.png";
+import Image from "next/image";
 
 export default function Navbar() {
   const authContext = useContext(AuthContext);
@@ -32,13 +34,16 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white mt-3">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/" className="text-2xl text-primary font-bold">
-              Life Drop 🩸
+          <div className="h-14 flex items-center w-[200px]">
+            <Link href="/" className="">
+              <Image 
+                className="h-[35px] w-[140px]"
+                src={logo}
+              alt="Life Drop"/>
             </Link>
           </div>
 
@@ -48,7 +53,7 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="hover:text-red-500"
+                className="nav-link"
               >
                 {item.name}
               </Link>
@@ -56,7 +61,7 @@ export default function Navbar() {
             {user && (
               <Link
                 href="/chat"
-                className="flex items-center gap-1 hover:text-red-500"
+                className="flex items-center gap-1 nav-link"
               >
                 Messages{" "}
                 {unReadMessages > 0 && (

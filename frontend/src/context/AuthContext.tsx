@@ -5,14 +5,13 @@ import {
   signOut,
   UserCredential,
 } from "firebase/auth";
-
 import Cookies from "js-cookie";
 import { GoogleAuthProvider } from "firebase/auth";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import auth from "@/firebase/firebase.config";
+import { getUSerId } from "@/service/userService";
 
-
-//Type for the context
+// Type for the context
 interface AuthContextType {
   GoogleSignIn: () => Promise<UserCredential>;
   logOut: () => Promise<void>;
@@ -20,45 +19,56 @@ interface AuthContextType {
   loading: boolean;
 }
 
-//Context
+// Context
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-//AuthProvider main function
+// AuthProvider main function
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  //handle states
+  // Handle states
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   const provider = new GoogleAuthProvider();
-  //Google SignIn
+
+  // Google SignIn
   const GoogleSignIn = async () => {
     return await signInWithPopup(auth, provider);
   };
-  //Sign-Out
+
+  // Sign-Out
   const logOut = async () => {
     return await signOut(auth);
   };
 
-
-  //onAuth state change handler
+  // onAuth state change handler
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser as any);
       setLoading(false);
+
       if (currentUser) {
-         setUser(currentUser);
-         console.log(currentUser);
-         const email: string = currentUser?.email || "";
-         Cookies.set("userEmail", email, { expires: 14 });
-      }
-      if (!currentUser) {
-        setLoading(false);
+        const email: string = currentUser.email || "";
+        Cookies.set("userEmail", email, { expires: 14 });
+
+        try {
+          const idResponse = await getUSerId(email);
+          const selfId = idResponse?._id;
+          if (selfId) {
+            Cookies.set("selfId", selfId, { expires: 14 });
+          }
+        } catch (error) {
+          console.error("Error fetching user ID:", error);
+        }
+      } else {
+        Cookies.remove("userEmail");
+        Cookies.remove("selfId");
       }
     });
-    return () => unSubscribe();
-  });
 
-  // auth info
+    return () => unSubscribe(); // Cleanup function
+  }, []); 
+
+  // Auth info
   const authInfo: AuthContextType = {
     GoogleSignIn,
     logOut,
@@ -66,7 +76,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     loading,
   };
 
-  //return
+  // Return context provider
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );

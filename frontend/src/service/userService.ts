@@ -35,6 +35,19 @@ export const getUersProfileImage = async (email: string) => {
   }
 };
 
+//get user id by user email
+export const getUSerId = async (email:string) => {
+  try {
+    const response = await fetch(`${serverBaseUrl}/user/user-id/${email}`);
+    const data = await response.json();
+    console.log(data);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 //get all donors lists (also Both role)
 export const getDonorsLists = async () => {
   try {

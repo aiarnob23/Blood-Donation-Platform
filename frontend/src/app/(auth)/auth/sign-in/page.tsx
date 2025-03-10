@@ -19,10 +19,15 @@ export default function SignIn() {
     try {
       const response = await GoogleSignIn();
       const additionalUserInfo = getAdditionalUserInfo(response);
+      console.log(additionalUserInfo);
       if (additionalUserInfo?.isNewUser) {
+        alert("new use detected")
         router.push("/auth/register");
       }
-      router.push("/home");
+      else {
+        router.push("/home");
+      }
+      
     } catch (error) {
       console.error(error);
     }

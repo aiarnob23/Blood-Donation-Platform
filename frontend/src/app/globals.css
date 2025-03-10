@@ -11,31 +11,39 @@
 }
 /* customized styles */
 .text-primary{
-  color:#bb0a1e;
+  color:#f7344b;
 }
 .text-secondary{
-  color:#445360;
+  color:#72808b;
 }
 .text-soft-red{
   color:#f04c4b;
 }
 .primary-btn {
-  background-color: #C62828; /* Strong red */
-  color: white; /* White text */
+  background: linear-gradient(135deg, #e63946, #ff6b81); /* Red to Pink Gradient */
+  color: white;
   border: none;
-  border-radius: 5px;
-  padding: 12px 20px;
+  border-radius: 8px;
+  padding: 12px 24px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(230, 57, 70, 0.3); /* Soft red shadow */
+  
+  text-align: center;
 }
 
-/* Hover state */
 .primary-btn:hover {
-  background-color: #B71C1C; /* Dark red on hover */
-  transform: translateY(-2px); /* Slight lift effect */
+  background: linear-gradient(135deg, #d62839, #ff3b5c); /* Darker gradient on hover */
+  transform: translateY(-2px) scale(1.05); /* Slight lift effect */
+  box-shadow: 0px 6px 12px rgba(230, 57, 70, 0.4);
 }
+
+.primary-btn:active {
+  transform: translateY(1px) scale(0.98); /* Press effect */
+}
+
 
 /* Disabled state */
 .primary-btn:disabled {
@@ -43,6 +51,38 @@
   opacity: 0.6; /* Reduce opacity */
   cursor: not-allowed;
 }
+/* nav links styles */
+.nav-link {
+  color: #564f4f; 
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #e63946; /* Red text on hover */
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #e63946, #ff6b81); /* Red to Pink Underline */
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
 
 /*  customized checkbox styles */
 
