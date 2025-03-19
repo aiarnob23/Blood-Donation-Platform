@@ -108,13 +108,13 @@ export default function SelfProfile() {
                   {/* Buttons - Desktop */}
                   <div className="hidden md:flex md:flex-row gap-3">
                     <Link href="/edit-profile">
-                      <button className="px-4 py-2 bg-white hover:bg-gray-100 text-indigo-700 font-medium rounded-lg transition duration-200 shadow-md">
+                      <button className="px-4 cursor-pointer py-2 bg-white hover:bg-gray-100 text-indigo-700 font-medium rounded-lg transition duration-200 shadow-md">
                         Edit Profile
                       </button>
                     </Link>
                     <button
                       onClick={handleLogOut}
-                      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition duration-200 shadow-md"
+                      className="px-4 cursor-pointer py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition duration-200 shadow-md"
                     >
                       Sign Out
                     </button>

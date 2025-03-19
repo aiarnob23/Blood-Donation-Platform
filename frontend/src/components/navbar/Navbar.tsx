@@ -1,33 +1,43 @@
 "use client";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/context/AuthContext";
-import { getUersProfileImage } from "@/service/userService";
 import logo from "../../../public/logo/logo.png";
 import Image from "next/image";
+import NavbarSkeleton from "../skeletons/NavbarSkeleton";
+
 
 export default function Navbar() {
   const authContext = useContext(AuthContext);
   if (!authContext) {
     throw new Error("AuthContext is not provided.");
   }
+
   const { user } = authContext;
   const unReadMessages = 4;
-  const [profileURL, setProfileURL] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Default avatar
+  const defaultAvatar = "/images/profile/default-profile.png";
+
+  // Handle loading state
   useEffect(() => {
-    const getUsersProfileURL = async () => {
-      const result = await getUersProfileImage(user?.email);
-      setProfileURL(result?.photoURL);
-    };
-    getUsersProfileURL();
-  }, [user?.email]);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500); 
+    return () => clearTimeout(timer);
+  }, []);
+
+  //skeleton while loading
+  if (isLoading) {
+    return <NavbarSkeleton />;
+  }
 
   // Centralized Menu Items
   const menuItems = [
     { name: "Home", href: "/" },
-    ...(user ? [{ name: "Donate", href: "/user/following" }] : []),
+    ...(user ? [{ name: "Donate", href: "/donate" }] : []),
     ...(user ? [{ name: "Request", href: "/request" }] : []),
     { name: "Donors", href: "/donors" },
     ...(user ? [{ name: "Appointments", href: "/appointments" }] : []),
@@ -40,29 +50,23 @@ export default function Navbar() {
           {/* Logo */}
           <div className="h-14 flex items-center w-[200px]">
             <Link href="/" className="">
-              <Image 
+              <Image
                 className="h-[35px] w-[140px]"
                 src={logo}
-              alt="Life Drop"/>
+                alt="Life Drop"
+              />
             </Link>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex space-x-6">
             {menuItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="nav-link"
-              >
+              <Link key={item.href} href={item.href} className="nav-link">
                 {item.name}
               </Link>
             ))}
             {user && (
-              <Link
-                href="/chat"
-                className="flex items-center gap-1 nav-link"
-              >
+              <Link href="/chat" className="flex items-center gap-1 nav-link">
                 Messages{" "}
                 {unReadMessages > 0 && (
                   <span className="bg-red-600 text-white text-xs rounded-full w-5 h-5 flex justify-center items-center">
@@ -86,7 +90,7 @@ export default function Navbar() {
               <Link href="/self-profile" className="flex items-center gap-2">
                 <img
                   className="h-8 w-8 rounded-full"
-                  src={profileURL || "/images/profile/default-profile.png"}
+                  src={defaultAvatar}
                   alt="profile"
                 />
                 <div>{user?.displayName}</div>
@@ -185,7 +189,7 @@ export default function Navbar() {
             >
               <img
                 className="h-8 w-8 rounded-full"
-                src={profileURL || "/images/profile/default-profile.png"}
+                src={defaultAvatar}
                 alt="profile"
               />
               <div>{user?.displayName}</div>

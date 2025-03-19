@@ -8,6 +8,12 @@ const registerNewUser = async (payload: TUser) => {
   return result;
 };
 
+//get users by blood group 
+const getUsersByBloodGroup = async (bloodGroup: string) => {
+  const result = await User.find({ blood_group: bloodGroup }, {email:1});
+  return result;
+}
+
 //get user info (self)
 const getUserInfo = async (email: string) => {
   const result = await User.find({ email: email });
@@ -61,6 +67,7 @@ const getDonorsLists = async () => {
 
 export const userServices = {
   registerNewUser,
+  getUsersByBloodGroup,
   getUserInfo,
   updateUserInfo,
   viewUsersDetails,

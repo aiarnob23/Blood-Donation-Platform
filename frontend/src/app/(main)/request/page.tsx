@@ -69,7 +69,7 @@ export default function BloodRequestForm() {
 
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-red-600 py-6 px-8">
           <div className="flex items-center justify-between">
@@ -106,8 +106,7 @@ export default function BloodRequestForm() {
               </div>
               <div className="ml-3">
                 <p className="text-sm font-medium text-green-800">
-                  Request submitted successfully! Our team will contact you
-                  shortly.
+                  Request submitted successfully! 
                 </p>
               </div>
             </div>

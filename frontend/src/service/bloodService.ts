@@ -27,3 +27,29 @@ export const postBloodRequest = async (formData: any) => {
     console.log(error);
   }
 };
+
+
+//get blood banks
+export const getBloodBanksList = async () => {
+  try {
+    const response = await fetch(`${serverBaseUrl}/blood-banks/get-all`);
+    const data = await response.json();
+    console.log(data);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+//get users posts for blood requests
+export const getAllBloodRequestsPosts = async () => {
+  try {
+    const response = await fetch(`${serverBaseUrl}/admin/all-posts`);
+    const data = await response.json();
+    console.log(data);
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,6 +1,5 @@
 import { serverBaseUrl } from "@/utils/serverUrl"
 import Cookies from "js-cookie";
-import { useId } from "react";
 
 export const registerNewUser = async (formData: any) => {
     try {

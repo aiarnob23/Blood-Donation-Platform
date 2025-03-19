@@ -7,6 +7,7 @@ import { postRoutes } from "./app/modules/post/post.route";
 import { conversationRoutes } from "./app/modules/conversation/conversation.route";
 import { adminRoutes } from "./app/modules/admin/admin.route";
 import { appointmentRoutes } from "./app/modules/appointment/appointment.route";
+import { bloodBankRoutes } from "./app/modules/blood-banks/blood-bank.route";
 
 const app: Application = express();
 
@@ -118,6 +119,7 @@ app.use("/api/post", postRoutes);
 app.use("/api/conversation", conversationRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/appointment", appointmentRoutes);
+app.use("/api/blood-banks", bloodBankRoutes);
 
 // Default route
 app.get("/", (req: Request, res: Response) => {
