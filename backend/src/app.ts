@@ -23,6 +23,7 @@ const io = new Server(4001, {
 interface ClientInfo {
   socketId: string;
   clientId: string;
+  userId?: string;
   email?: string;
   rooms: string[];
 }
@@ -31,7 +32,7 @@ const connectedClients: Record<string, ClientInfo> = {};
 
 // Handle socket connections
 io.on("connection", (socket) => {
-  // Extract the unique client ID from the connection query
+  //unique client ID 
   const clientId = socket.handshake.query.clientId as string;
   console.log(`User connected: ${socket.id} (Client ID: ${clientId})`);
 
@@ -42,7 +43,7 @@ io.on("connection", (socket) => {
     rooms: [],
   };
 
-  // Handle room joining
+  //----------- Handle room joining---------
   socket.on("join-room", async (room) => {
     socket.join(room);
 
@@ -69,11 +70,59 @@ io.on("connection", (socket) => {
         client.rooms.includes(room.toString())
       ),
     });
+
+    // Associate user ID with socket
+    socket.on("set-user-id", (userId) => {
+      if (connectedClients[socket.id]) {
+        connectedClients[socket.id].userId = userId;
+        console.log(`Associated userId ${userId} with socket ${socket.id}`);
+      }
+    });
+
+    // Track when user is active in a specific room
+    socket.on("user-active-in-room", (data) => {
+      const { room, userId } = data;
+      console.log(`User ${userId} active in room ${room}`);
+
+      // Broadcast to the room that this user is active
+      io.to(room).emit("user-active-status", {
+        userId: userId,
+        isActive: true,
+        room: room,
+      });
+    });
+
+    // Track when user leaves a specific room
+    socket.on("user-inactive-in-room", (data) => {
+      const { room, userId } = data;
+      console.log(`User ${userId} inactive in room ${room}`);
+
+      // Broadcast to the room that this user is inactive
+      io.to(room).emit("user-active-status", {
+        userId: userId,
+        isActive: false,
+        room: room,
+      });
+    });
+
+    // Handle read status updates
+    socket.on("mark-messages-read", (data) => {
+      const { room, readerId } = data;
+      console.log(`User ${readerId} marked messages as read in room ${room}`);
+
+      // Broadcast to the room that this user has read messages
+      io.to(room).emit("messages-marked-read", {
+        room: room,
+        readerId: readerId,
+      });
+    });
   });
 
-  // Handle messages
+
+  // ----------Handle messages-----------
   socket.on("message", (data) => {
     console.log("Received message:", data);
+    io.emit("new-message-alert", "fetch unread message");
     // Broadcast the message to the specified room or to all clients
     if (data.room) {
       io.to(data.room).emit("message", {
@@ -81,6 +130,7 @@ io.on("connection", (socket) => {
         socketId: socket.id,
         clientId: clientId,
       });
+      
     } else {
       io.emit("message", {
         ...data,
@@ -90,7 +140,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Associate email with client
+  //----- Associate email with client------
   socket.on("set-user-email", (email) => {
     if (connectedClients[socket.id]) {
       connectedClients[socket.id].email = email;
@@ -98,7 +148,7 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Handle disconnection
+  // -------Handle disconnection------
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id} (Client ID: ${clientId})`);
     // Clean up client info
@@ -106,8 +156,8 @@ io.on("connection", (socket) => {
   });
 });
 
-// ---------------Basic backend server----------------------//
 
+// -------------------------Basic backend server------------------------//
 // Middleware
 app.use(cookieParser());
 app.use(express.json());

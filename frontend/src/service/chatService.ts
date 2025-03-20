@@ -1,5 +1,6 @@
 import { serverBaseUrl } from "@/utils/serverUrl";
 
+//get chat lists
 export const getUsersChatLists = async (email: string) => {
   try {
     const response = await fetch(`${serverBaseUrl}/user/chat-lists/${email}`);
@@ -48,3 +49,43 @@ export const getUsersChatLists = async (email: string) => {
     return [];
   }
 };
+
+//add new message in chat
+export const addNewMessage = async (roomId: string, message: any) => {
+  const response = await fetch(`${serverBaseUrl}/conversation/chat-room`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({roomId, message}),
+  });
+  const result = await response.json();
+  return result;
+}
+
+//chat history of a room
+export const getRoomChatHistory = async (roomId: string) => {
+  const response = await fetch(`${serverBaseUrl}/conversation/chat-room?roomId=${roomId}`)
+  const result = await response.json();
+  return result;
+}
+
+//update message read status
+export const updateMessageReadStatus = async (roomId:string, userId:string) => {
+  const response = await fetch(`${serverBaseUrl}/conversation/read-status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ roomId, userId }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+//get unread message count
+export const getUnreadMessagesCount = async (userId: string) => {
+  const response = await fetch(`${serverBaseUrl}/conversation/unread-messages/${userId}`)
+  const result = await response.json();
+  return result;
+}

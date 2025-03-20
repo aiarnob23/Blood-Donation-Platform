@@ -5,7 +5,9 @@ import { AuthContext } from "@/context/AuthContext";
 import logo from "../../../public/logo/logo.png";
 import Image from "next/image";
 import NavbarSkeleton from "../skeletons/NavbarSkeleton";
-
+import Cookies from "js-cookie";
+import { getUnreadMessagesCount } from "@/service/chatService";
+import { useSocket } from "@/context/SocketProvider";
 
 export default function Navbar() {
   const authContext = useContext(AuthContext);
@@ -14,20 +16,45 @@ export default function Navbar() {
   }
 
   const { user } = authContext;
-  const unReadMessages = 4;
+  const userId = Cookies.get("selfId");
+  const socket = useSocket();
+  const [unReadMessages, setUnReadMessages] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
 
   // Default avatar
   const defaultAvatar = "/images/profile/default-profile.png";
 
-  // Handle loading state
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500); 
-    return () => clearTimeout(timer);
-  }, []);
+  // Handle loading state and fetch unread messages
+ useEffect(() => {
+   const fetchUnreadCount = async () => {
+     if (userId) {
+       try {
+         const counts = await getUnreadMessagesCount(userId);
+         setUnReadMessages(counts?.data);
+       } catch (error) {
+         console.error("Error fetching unread message count:", error);
+       }
+     }
+     setIsLoading(false);
+   };
+
+   fetchUnreadCount();
+
+
+   const interval = setInterval(fetchUnreadCount, 10000);
+
+   if (socket) {
+     socket.on("new-message-alert", fetchUnreadCount);
+     return () => {
+       socket.off("new-message-alert", fetchUnreadCount);
+       clearInterval(interval);
+     };
+   }
+
+   return () => clearInterval(interval); 
+ }, [userId, socket]);
 
   //skeleton while loading
   if (isLoading) {
