@@ -153,7 +153,7 @@ export default function UserProfile() {
 
                   <div className="mt-6 md:mt-0 flex space-x-3">
                     {userInfo.isAvailableForDonation && (
-                      <div className="bg-green-500 text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow-md flex items-center">
+                      <Link href={`/appointment/request/${userInfo?._id}`} className="bg-green-500 cursor-pointer text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow-md flex items-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-5 w-5 mr-2"
@@ -168,8 +168,8 @@ export default function UserProfile() {
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                           />
                         </svg>
-                        Available for Donation
-                      </div>
+                        Schedule Appointment
+                      </Link>
                     )}
 
                     {/* Chat Button */}

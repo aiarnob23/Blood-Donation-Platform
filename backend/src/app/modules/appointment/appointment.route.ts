@@ -1,8 +1,9 @@
 import express from "express";
-import { appointmentControllers } from "./appointment.controller";
+import { appointmentController } from "./appointment.controller";
 const router = express.Router();
 
-router.post("/create", appointmentControllers.addAppointment);
-router.get(`/user-appointments/:id`, appointmentControllers.getAppointment);
+router.post('/add-schedule', appointmentController.addNewAppointmentSchedule);
+router.get(`/view/:id`, appointmentController.getAppointments);
+router.patch('/update-status', appointmentController.updateAppointmentStatus);
 
 export const appointmentRoutes = router;

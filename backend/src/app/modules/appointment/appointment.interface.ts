@@ -1,16 +1,17 @@
 import { Types } from "mongoose";
 
 export type TAppointment = {
-  donor: Types.ObjectId;
-  receiver: Types.ObjectId;
+  donor: string;
+  applicant: string;
   patientName: string;
-  patientAge: Number;
+  patientAge: number;
+  patientGender: "Male" | "Female" | "Other";
+  contact_number: string;
   blood_group: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   location: string;
   date: Date;
+  disease?: string;
+  additional_notes?: string;
   isDeleted?: boolean;
-  isSuccessful?: boolean;
-  isAcceptedByDonoor?: boolean;
-  isRejectedByDonor?: boolean;
-  isRejectedByReceiver?: boolean;
+  status: "Pending" | "Accepted" | "Rejected";
 };

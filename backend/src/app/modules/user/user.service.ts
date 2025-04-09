@@ -37,7 +37,7 @@ const getUsersDP = async (email: string) => {
 
 //update user info
 const updateUserInfo = async (id: any, payload: any) => {
-  const result = await User.findByIdAndUpdate({ _id: id }, { payload });
+  const result = await User.findByIdAndUpdate({ _id: id }, payload,{new:true});
   console.log(result);
 };
 
@@ -65,6 +65,7 @@ const getDonorsLists = async () => {
   );
   return result;
 };
+
 
 export const userServices = {
   registerNewUser,

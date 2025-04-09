@@ -3,13 +3,11 @@ import { TAppointment } from "./appointment.interface";
 
 const appointmentSchema = new Schema<TAppointment>({
   donor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    type: String,
     required: true,
   },
-  receiver: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  applicant: {
+    type: String,
     required: true,
   },
   patientName: {
@@ -19,6 +17,15 @@ const appointmentSchema = new Schema<TAppointment>({
   patientAge: {
     type: Number,
     required: true,
+  },
+  patientGender: {
+    type: String,
+    enum: ["Male", "Female", "Other"],
+    required:true,
+  },
+  contact_number: {
+    type: String,
+    required:true,
   },
   blood_group: {
     type: String,
@@ -33,6 +40,23 @@ const appointmentSchema = new Schema<TAppointment>({
     type: Date,
     default: Date.now(),
   },
+  disease: {
+    type: String,
+    required:false,
+  },
+  additional_notes: {
+    type: String,
+    required:false,
+  },
+  isDeleted: {
+    type: Boolean,
+    default:false,
+  },
+  status: {
+    type: String,
+    enum: ["Pending", "Accepted", "Rejected"],
+    default:"Pending",
+  }
 });
 
 export const Appointment = model<TAppointment>(

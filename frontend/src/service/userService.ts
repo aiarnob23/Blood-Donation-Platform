@@ -1,5 +1,17 @@
 import { serverBaseUrl } from "@/utils/serverUrl";
 
+//update users details
+export const updateUserProfile = async (id: string, updatedInfo: any) => {
+  const response = await fetch(`${serverBaseUrl}/user/update/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedInfo),
+  });
+  const result = await response.json();
+  return result;
+};
 //get user info by email (self)
 export const getUserInfoByEmail = async (email: string) => {
   try {

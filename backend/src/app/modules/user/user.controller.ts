@@ -5,8 +5,6 @@ import { userServices } from "./user.service";
 //create new user
 const RegisterUser = catchAsync(async (req, res) => {
   const payload = req?.body;
-  console.log(req?.body);
-  console.log(payload);
   const result = await userServices.registerNewUser(payload);
   sendResponse(res, {
     success: true,
@@ -15,6 +13,23 @@ const RegisterUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+//update users details 
+const updateUsersDetails = catchAsync(async (req, res) => {
+  const payload = req?.body;
+  const id = req?.params?.id;
+  console.log(payload, ' ' , id);
+  if (payload && id) {
+    const result = await userServices.updateUserInfo(id, payload);
+    sendResponse(res, {
+      success: true,
+      statusCode: 200,
+      message: "Users details updated successfully",
+      data:result
+    })
+  }
+
+})
 
 //get user info by user email (self)
 const selfProfileInfo = catchAsync(async (req, res) => {
@@ -122,8 +137,11 @@ const getDonorLists = catchAsync(async (req, res) => {
   });
 });
 
+
+
 export const userController = {
   RegisterUser,
+  updateUsersDetails,
   selfProfileInfo,
   getUserDetails,
   findUsersChatLists,

@@ -15,7 +15,7 @@ interface Appointment {
   date: string;
   location: string;
   donor: string;
-  receiver: string;
+  applicant: string;
 }
 
 interface SortConfig {
@@ -365,13 +365,13 @@ export default function Appointments() {
                         </span>
                       </div>
                       <div>
-                        Receiver:{" "}
+                        Applicant:{" "}
                         <span>
                           <Link
                             className="text-blue-400"
-                            href={`/user-profile/${appointment.receiver}`}
+                            href={`/user-profile/${appointment.applicant}`}
                           >
-                            {appointment.receiver}
+                            {appointment.applicant}
                           </Link>
                         </span>
                       </div>

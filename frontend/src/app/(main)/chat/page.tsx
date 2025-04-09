@@ -5,26 +5,41 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 
+interface ChatInfo {
+  roomId: string;
+  chatBuddy: string;
+  messageData: string;
+  timestamp: string;
+  isRead: boolean;
+  ownMessage: boolean;
+}
+
 export default function ChatPage() {
   const authContext = useContext(AuthContext);
   if (!authContext) {
     throw new Error("AuthContext is not provided.");
   }
   const { user } = authContext;
-  const [chatLists, setChatLists] = useState<any>([]);
+  const [chatLists, setChatLists] = useState<ChatInfo[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getChatLists = async () => {
       if (!user?.email) return;
-
       setIsLoading(true);
       setError(null);
-
       try {
         const res = await getUsersChatLists(user.email);
-        setChatLists(res);
+
+        // Sort chat lists (newest first)
+        const sortedChats = [...res].sort((a: ChatInfo, b: ChatInfo) => {
+          return (
+            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+          );
+        });
+
+        setChatLists(sortedChats);
       } catch (err) {
         console.error("Failed to fetch chat lists:", err);
         setError("Failed to load your conversations. Please try again later.");
@@ -44,7 +59,6 @@ export default function ChatPage() {
     </div>
   );
 
-  // Error state UI
   if (error) {
     return (
       <div className="max-w-lg mx-auto p-6">
@@ -52,7 +66,32 @@ export default function ChatPage() {
         <div className="p-5 rounded-xl bg-red-50 border-l-4 border-red-500 text-red-700 shadow-sm">
           <p className="font-medium">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => {
+              setIsLoading(true);
+              setError(null);
+              getUsersChatLists(user?.email || "")
+                .then((res) => {
+                  // Sort chat lists by timestamp (newest first)
+                  const sortedChats = [...res].sort(
+                    (a: ChatInfo, b: ChatInfo) => {
+                      return (
+                        new Date(b.timestamp).getTime() -
+                        new Date(a.timestamp).getTime()
+                      );
+                    }
+                  );
+
+                  setChatLists(sortedChats);
+                  setIsLoading(false);
+                })
+                .catch((err) => {
+                  console.error("Failed to fetch chat lists:", err);
+                  setError(
+                    "Failed to load your conversations. Please try again later."
+                  );
+                  setIsLoading(false);
+                });
+            }}
             className="mt-3 px-5 py-2 bg-red-100 hover:bg-red-200 rounded-lg text-red-700 text-sm font-medium transition flex items-center gap-2"
           >
             <svg
@@ -77,7 +116,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="max-w-lg mx-auto p-6">
+    <div className="max-w-lg min-h-[700px] mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Chats</h2>
         {!isLoading && chatLists.length > 0 && (
@@ -120,7 +159,7 @@ export default function ChatPage() {
               </button>
             </div>
           ) : (
-            chatLists.map((chatInfo: any) => (
+            chatLists.map((chatInfo: ChatInfo) => (
               <Link href={`/chat/${chatInfo.roomId}`} key={chatInfo.roomId}>
                 <div
                   className={`flex items-center gap-4 p-4 rounded-xl shadow-sm cursor-pointer transition ${

@@ -67,7 +67,7 @@ export default function Navbar() {
     ...(user ? [{ name: "Donate", href: "/donate" }] : []),
     ...(user ? [{ name: "Request", href: "/request" }] : []),
     { name: "Donors", href: "/donors" },
-    ...(user ? [{ name: "Appointments", href: "/appointments" }] : []),
+    ...(user ? [{ name: "Appointments", href: "/appointment/status" }] : []),
   ];
 
   return (
