@@ -40,7 +40,10 @@
 - **Backend**: Node.js, Express.js  
 - **Database**: MongoDB  
 - **Authentication**: Firebase (Google Sign-In)  
-- **Notifications**: SMS / Email Integration  
+- **Notifications**: SMS / Email Integration
+
+- Screenshots:
+- ![Image](https://github.com/user-attachments/assets/a6f88ced-0072-4d1b-b5f4-3dbaa322ab3c)
 
 ---
 
