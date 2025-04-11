@@ -12,6 +12,7 @@ export const updateUserProfile = async (id: string, updatedInfo: any) => {
   const result = await response.json();
   return result;
 };
+
 //get user info by email (self)
 export const getUserInfoByEmail = async (email: string) => {
   try {

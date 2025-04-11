@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { registerNewUser } from "@/service/authService";
 import { successMessage } from "@/utils/alertMessages";
 import { AuthContext } from "@/context/AuthContext";
+import { getUsersProfileInfo } from "@/service/userService";
 
 export default function Register() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function Register() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
 
-  // Initialize form state with default values
+  // form state with default values
   const [formData, setFormData] = useState({
     name: "",
     blood_group: "A+",
@@ -34,23 +35,39 @@ export default function Register() {
     role: "Both",
   });
 
-  // Set up component after mount to avoid hydration errors
+  
   useEffect(() => {
     setMounted(true);
-
-    // Get cookie data after component mounts on client
-    const getCookieData = () => {
+    const getCookieData = async () => {
       try {
-        // Import Cookies module only on client side
         const Cookies = require("js-cookie");
         const email = Cookies.get("userEmail") || "";
+        const id = Cookies.get("selfId") || null;
         setUserEmail(email);
 
-        // Update form data with email
         setFormData((prev) => ({
           ...prev,
           email: email,
         }));
+
+        // Check if user already registered 
+        if (id) {
+          try {
+            const userProfile = await getUsersProfileInfo(id);
+            if (userProfile?.isRegistered) {
+              console.log(
+                "User already registered, redirecting to profile page"
+              );
+              router.push("/self-profile");
+            } else {
+              console.log(
+                "User ID exists but not fully registered, continuing with registration"
+              );
+            }
+          } catch (error) {
+            console.error("Error checking user registration status:", error);
+          }
+        }
       } catch (error) {
         console.error("Error getting cookie data:", error);
       }
@@ -58,13 +75,13 @@ export default function Register() {
 
     getCookieData();
 
-    // Get user data from context
+    // user data from context
     if (authContext) {
       const { user } = authContext;
       const photo = user?.photoURL || "";
       setPhotoURL(photo);
 
-      // Update form data with photo URL
+      // Update form with photo URL
       setFormData((prev) => ({
         ...prev,
         photoURL: photo,
@@ -110,16 +127,15 @@ export default function Register() {
       }
     } catch (error) {
       console.error("Registration error:", error);
-      // Add error handling here
     }
   };
 
-  // Function to go to next step
+  //  next step
   const nextStep = () => {
     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
   };
 
-  // Function to go to previous step
+  // previous step
   const prevStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
@@ -140,13 +156,13 @@ export default function Register() {
           formData.gender && formData.phone && formData.nid && formData.address
         );
       case 3:
-        return true; // Last step can be submitted with default values
+        return true;
       default:
         return false;
     }
   };
 
-  // Avoid rendering form until client-side data is loaded
+  //hydration handling
   if (!mounted) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
@@ -531,12 +547,16 @@ export default function Register() {
                         id="isSmoker"
                         name="isSmoker"
                         checked={formData.isSmoker}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          e.stopPropagation(); // Prevent event bubbling
+                          handleChange(e);
+                        }}
                         className="h-5 w-5 text-red-600 rounded focus:ring-red-500"
                       />
                       <label
                         htmlFor="isSmoker"
                         className="text-sm text-gray-700"
+                        onClick={(e) => e.preventDefault()} // Prevent clicking on label from triggering form
                       >
                         I am a smoker
                       </label>
@@ -549,12 +569,16 @@ export default function Register() {
                         id="critical_disease"
                         name="critical_disease"
                         checked={formData.critical_disease}
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          e.stopPropagation(); // Prevent event bubbling
+                          handleChange(e);
+                        }}
                         className="h-5 w-5 text-red-600 rounded focus:ring-red-500"
                       />
                       <label
                         htmlFor="critical_disease"
                         className="text-sm text-gray-700"
+                        onClick={(e) => e.preventDefault()} // Prevent clicking on label from triggering form
                       >
                         I have a critical health condition
                       </label>
@@ -597,7 +621,11 @@ export default function Register() {
                               ? "border-red-500 bg-red-50"
                               : "border-gray-200 hover:border-red-200"
                           }`}
-                          onClick={() => setFormData({ ...formData, role })}
+                          onClick={(e) => {
+                            e.preventDefault(); // Prevent default behavior
+                            e.stopPropagation(); // Stop event propagation
+                            setFormData({ ...formData, role });
+                          }}
                         >
                           <div className="flex items-center">
                             <input
@@ -606,12 +634,17 @@ export default function Register() {
                               name="role"
                               value={role}
                               checked={formData.role === role}
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                e.stopPropagation(); // Stop event propagation
+                                handleChange(e);
+                              }}
                               className="h-4 w-4 text-red-600 focus:ring-red-500"
+                              onClick={(e) => e.stopPropagation()} // Stop click from bubbling up
                             />
                             <label
                               htmlFor={`role_${role}`}
                               className="ml-2 font-medium text-gray-700"
+                              onClick={(e) => e.preventDefault()} // Prevent clicking on label from triggering form
                             >
                               {role}
                             </label>
@@ -636,20 +669,23 @@ export default function Register() {
                       id="notificationPreference"
                       name="notificationPreference"
                       checked={formData.notificationPreference === "Yes"}
-                      onChange={() =>
+                      onChange={(e) => {
+                        e.preventDefault(); // Prevent default behavior from bubbling up
+                        e.stopPropagation(); // Stop event propagation
                         setFormData({
                           ...formData,
                           notificationPreference:
                             formData.notificationPreference === "Yes"
                               ? "No"
                               : "Yes",
-                        })
-                      }
+                        });
+                      }}
                       className="h-5 w-5 text-red-600 rounded focus:ring-red-500"
                     />
                     <label
                       htmlFor="notificationPreference"
                       className="text-sm text-gray-700"
+                      onClick={(e) => e.preventDefault()} // Prevent clicking on label from triggering form
                     >
                       Send me notifications about donation requests in my area
                     </label>
@@ -662,7 +698,10 @@ export default function Register() {
                 {currentStep > 1 ? (
                   <button
                     type="button"
-                    onClick={prevStep}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      prevStep();
+                    }}
                     className="px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                   >
                     Back
@@ -674,7 +713,10 @@ export default function Register() {
                 {currentStep < totalSteps ? (
                   <button
                     type="button"
-                    onClick={nextStep}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      nextStep();
+                    }}
                     disabled={!isCurrentStepComplete()}
                     className={`px-6 py-3 border border-transparent text-base font-medium rounded-md text-white ${
                       isCurrentStepComplete()

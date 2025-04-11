@@ -38,7 +38,7 @@ export const getUsersChatLists = async (email: string) => {
           .catch(() => null); 
       });
 
-    // Use Promise.allSettled to avoid complete failure
+    //  Promise.allSettled to avoid complete failure
     const chatLists = (await Promise.allSettled(userFetchPromises))
       .filter((result) => result.status === "fulfilled" && result.value) 
       .map((result : any) => result.value);

@@ -21,8 +21,15 @@ const getAllAppointments = async () => {
   return result;
 };
 
+//get user details 
+const getUsersDetails = async (id:string) => {
+  const result = await User.findById(id);
+  return result;
+}
+
 export const adminServices = {
   getAllUsers,
   getAllPosts,
   getAllAppointments,
+ getUsersDetails,
 };

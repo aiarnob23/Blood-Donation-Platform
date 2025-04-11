@@ -2,7 +2,7 @@
 export default function AdminHome() {
   return (
       <div> 
-         admin home
+         Stats .......
       </div>
   );
 }

@@ -1,6 +1,7 @@
 import { serverBaseUrl } from "@/utils/serverUrl"
 import Cookies from "js-cookie";
 
+//register new user
 export const registerNewUser = async (formData: any) => {
     try {
         const response = await fetch(`${serverBaseUrl}/user/register`, {

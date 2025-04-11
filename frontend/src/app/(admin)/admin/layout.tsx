@@ -16,7 +16,7 @@ export default function RootLayout({
       <div>
         <Sidebar />
       </div>
-      <div>{children}</div>
+      <div className="ml-[calc(16rem+1rem)]">{children}</div>
     </div>
   );
 }

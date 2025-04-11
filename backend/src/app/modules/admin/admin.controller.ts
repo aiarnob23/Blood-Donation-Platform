@@ -35,8 +35,21 @@ const getAllAppointments = catchAsync(async (req, res) => {
   });
 });
 
+//get users details 
+const getUsersDetails = catchAsync(async (req, res) => {
+  const id = req?.params?.id;
+  const result = await adminServices.getUsersDetails(id as string);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "User details found",
+    data:result,
+  })
+ })
+
 export const adminControllers = {
   getAllUsersList,
   getUsersPosts,
   getAllAppointments,
+  getUsersDetails,
 };

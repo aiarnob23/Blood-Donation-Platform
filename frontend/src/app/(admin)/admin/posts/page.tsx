@@ -120,9 +120,8 @@ export default function Posts() {
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
   const handleDeletePost = (postId: string) => {
-    // Implementation for delete functionality would go here
+    // Delete logic....
     console.log(`Delete post with ID: ${postId}`);
-    // After deletion logic, you would update the posts state
   };
 
   return (

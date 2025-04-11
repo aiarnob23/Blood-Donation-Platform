@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import { createRoom } from "@/utils/chatRoomGenerate";
 
 
-// Define TypeScript interface for user data
+//user interface 
 interface UserInfo {
   _id: string;
   name: string;
@@ -63,7 +63,7 @@ export default function UserProfile() {
     getUserProfileDetails();
   }, [id]);
 
-  // Calculate age from DOB
+  // Calculate age 
   const calculateAge = (dob: { day: number; month: number; year: number }) => {
     const today = new Date();
     const birthDate = new Date(dob.year, dob.month - 1, dob.day);

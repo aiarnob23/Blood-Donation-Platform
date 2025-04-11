@@ -98,7 +98,7 @@ export default function Donate() {
     return dateB.getTime() - dateA.getTime(); 
   });
 
-  // unique locations for filter dropdown
+  //  locations  filter 
   const uniqueLocations = [
     ...new Set([
       ...bloodBanks.map((bank) => bank.location),

@@ -109,7 +109,7 @@ export default function ViewAppointments() {
     "Rejected",
   ];
 
-  // Format date to a more readable format
+  // Format date 
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -119,7 +119,7 @@ export default function ViewAppointments() {
     });
   };
 
-  // Get status badge color based on status
+  //  status badge color based on status
   const getStatusColor = (status: Appointment["status"]): string => {
     switch (status) {
       case "Pending":

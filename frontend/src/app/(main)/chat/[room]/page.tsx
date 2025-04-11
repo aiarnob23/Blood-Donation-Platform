@@ -41,7 +41,7 @@ export default function Chat() {
   const [chatBuddyProfile, setChatBuddyProfile] = useState<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto scroll to bottom of messages container
+  // Auto scroll 
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop =
@@ -66,7 +66,7 @@ export default function Chat() {
     return groups;
   };
 
-  // Format date for display
+  // Format date 
   const formatDate = (dateString: string) => {
     const today = new Date().toLocaleDateString();
     const yesterday = new Date();
@@ -78,7 +78,7 @@ export default function Chat() {
     return dateString;
   };
 
-  // Fetch previous chat history when the user navigates to a room
+  //  previous chat history 
   useEffect(() => {
     const fetchChatHistory = async () => {
       if (decodedRoom) {
@@ -124,12 +124,12 @@ export default function Chat() {
     fetchChatHistory();
   }, [decodedRoom, selfUserId, chatBuddyUserId, socket]);
 
-  // Scroll to bottom whenever messages change
+  // Scroll to bottom 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Focus input when component mounts
+  // Focus input 
   useEffect(() => {
     if (inputRef.current && !isLoading) {
       inputRef.current.focus();
@@ -146,7 +146,6 @@ export default function Chat() {
 
       socket.emit("join-room", room);
 
-      // Inform other users that we've entered the room for read status tracking
       socket.emit("user-active-in-room", {
         room: decodedRoom,
         userId: selfUserId,
@@ -188,7 +187,7 @@ export default function Chat() {
       // Listen for "buddy seen messages" events
       socket.on("buddy-seen-messages", (data) => {
         if (data.room === decodedRoom && data.senderId === chatBuddyUserId) {
-          // Mark all messages from this sender as read
+          // Mark as read
           setMessages((prevMessages) =>
             prevMessages.map((msg) =>
               !msg.fromSelf ? { ...msg, isRead: true } : msg
@@ -221,14 +220,14 @@ export default function Chat() {
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-          // If we receive a message and we're in the room, mark it as read
+          //self active and mark it as read
           if (!fromSelf) {
             socket.emit("mark-messages-read", {
               room: decodedRoom,
               readerId: selfUserId,
             });
 
-            // Also update read status in database
+            //update read status in database
             try {
               await updateMessageReadStatus(
                 decodedRoom as string,
@@ -295,7 +294,7 @@ export default function Chat() {
 
       try {
         const response = await addNewMessage(decodedRoom as string, data);
-        // Update the message ID from the response if available
+        // Update messages
         if (response?.data?.id) {
           setMessages((prevMessages) => {
             const updatedMessages = [...prevMessages];
@@ -315,7 +314,6 @@ export default function Chat() {
 
       setMessage("");
 
-      // Focus input after sending
       if (inputRef.current) {
         inputRef.current.focus();
       }
@@ -329,7 +327,7 @@ export default function Chat() {
     }
   };
 
-  // Format timestamp to a readable time
+  // Format timestamp
   const formatTime = (timestamp: string | undefined) => {
     if (!timestamp) return "";
     const date = new Date(timestamp);

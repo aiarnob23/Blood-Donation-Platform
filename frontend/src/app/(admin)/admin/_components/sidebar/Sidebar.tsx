@@ -37,9 +37,9 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-screen bg-gray-900 text-white p-5 ${
+      className={`h-screen fixed bg-gray-900 text-white p-5 ${
         isOpen ? "w-64" : "w-20"
-      } transition-all duration-300`}
+      } transition-all duration-0`}
     >
       <button onClick={toggleSidebar} className="mb-5 text-white">
         <Menu />

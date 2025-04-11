@@ -76,12 +76,10 @@ export default function Appointments() {
 
   // Filter and search function
   const filteredAppointments = sortedAppointments.filter((appointment) => {
-    // First apply blood group filter if active
     if (filter !== "all" && appointment.blood_group !== filter) {
       return false;
     }
 
-    // Then apply search across multiple fields
     const searchFields = [
       appointment.patientName,
       appointment.location,
@@ -93,7 +91,7 @@ export default function Appointments() {
     return searchFields.includes(searchTerm.toLowerCase());
   });
 
-  // Format date for display
+  // Format date 
   const formatDate = (dateString: string): string => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -105,7 +103,7 @@ export default function Appointments() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Get unique blood groups for filter
+  // unique blood groups filter
   const bloodGroups = [
     "all",
     ...Array.from(new Set(appointments.map((app) => app.blood_group))),
@@ -233,9 +231,6 @@ export default function Appointments() {
       {/* Appointments Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {loading ? (
-          //   <div className="flex justify-center items-center h-64">
-          //     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          //   </div>
           <div>
             <AppointmentSkeleton />
           </div>

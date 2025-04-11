@@ -15,8 +15,11 @@ import {
   ChevronDown,
   ChevronUp,
   RefreshCw,
+  Edit,
+  Trash2,
 } from "lucide-react";
 import { getAllUers } from "../services/userService";
+import Link from "next/link";
 
 export default function Users() {
   const [users, setUsers] = useState<any[]>([]);
@@ -55,7 +58,7 @@ export default function Users() {
     getUsersList();
   }, []);
 
-  // Calculate age from DOB
+  // Calculate age 
   const calculateAge = (dob: any) => {
     if (!dob) return 0;
     const today = new Date();
@@ -132,7 +135,7 @@ export default function Users() {
     });
   };
 
-  // Toggle sort direction for a field
+  //toggle sort direction for a field
   const toggleSort = (field: string) => {
     setSort({
       field,
@@ -175,7 +178,7 @@ export default function Users() {
         )}
       </div>
 
-      {/* Enhanced Filters UI */}
+      {/*  Filters */}
       {showFilters && (
         <div className="bg-white shadow-md rounded-lg p-4 mb-6 transition-all">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -446,6 +449,7 @@ export default function Users() {
                 <th className="p-3 border text-center">Verified</th>
                 <th className="p-3 border text-center">Phone Visible</th>
                 <th className="p-3 border text-center">Banned</th>
+                <th className="p-3 border text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -549,6 +553,22 @@ export default function Users() {
                       ) : (
                         <CheckCircle className="text-green-500 mx-auto" />
                       )}
+                    </td>
+                    <td className="p-3 border text-center">
+                      <div className="flex items-center justify-center gap-4">
+                        {/* Edit Button */}
+                        <Link
+                          href={`/admin/edit-user/${user._id}`}
+                          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+                        >
+                          <Edit className="h-5 w-5" /> <span>Edit</span>
+                        </Link>
+
+                        {/* Delete Button */}
+                        <button className="flex cursor-pointer items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all">
+                          <Trash2 className="h-5 w-5" /> <span>Delete</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

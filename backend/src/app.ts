@@ -19,7 +19,7 @@ const io = new Server(4001, {
   },
 });
 
-// Keep track of connected clients and their information
+//connected clients and their information
 interface ClientInfo {
   socketId: string;
   clientId: string;
@@ -79,7 +79,7 @@ io.on("connection", (socket) => {
       }
     });
 
-    // Track when user is active in a specific room
+    // Track active user in a specific room
     socket.on("user-active-in-room", (data) => {
       const { room, userId } = data;
       console.log(`User ${userId} active in room ${room}`);
@@ -92,12 +92,12 @@ io.on("connection", (socket) => {
       });
     });
 
-    // Track when user leaves a specific room
+    // Track user leaves a specific room
     socket.on("user-inactive-in-room", (data) => {
       const { room, userId } = data;
       console.log(`User ${userId} inactive in room ${room}`);
 
-      // Broadcast to the room that this user is inactive
+      // Broadcast about user is inactive
       io.to(room).emit("user-active-status", {
         userId: userId,
         isActive: false,
@@ -110,7 +110,7 @@ io.on("connection", (socket) => {
       const { room, readerId } = data;
       console.log(`User ${readerId} marked messages as read in room ${room}`);
 
-      // Broadcast to the room that this user has read messages
+      // Broadcast about user has read messages
       io.to(room).emit("messages-marked-read", {
         room: room,
         readerId: readerId,
@@ -123,7 +123,7 @@ io.on("connection", (socket) => {
   socket.on("message", (data) => {
     console.log("Received message:", data);
     io.emit("new-message-alert", "fetch unread message");
-    // Broadcast the message to the specified room or to all clients
+   
     if (data.room) {
       io.to(data.room).emit("message", {
         ...data,

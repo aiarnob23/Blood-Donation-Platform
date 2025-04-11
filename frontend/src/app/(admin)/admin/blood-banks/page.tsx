@@ -28,7 +28,7 @@ const BloodBankAdminPage = () => {
     fetchBloodBanks();
   }, []);
 
-  // Apply filters when search term or location filter changes
+  // filters 
   useEffect(() => {
     if (bloodBanks.length > 0) {
       const filtered = bloodBanks.filter(
@@ -79,7 +79,7 @@ const BloodBankAdminPage = () => {
     }
   };
 
-  // Reset form data
+  // handle form data
   const resetForm = () => {
     setFormData({
       name: "",
@@ -91,7 +91,7 @@ const BloodBankAdminPage = () => {
     setCurrentId("");
   };
 
-  // Handle edit button click
+  // Handle edit 
   const handleEdit = (bank: any) => {
   };
 
@@ -103,7 +103,7 @@ const BloodBankAdminPage = () => {
       }
   };
 
-  // Get unique locations for filtering
+  //locations filtering
   const uniqueLocations = [...new Set(bloodBanks.map((bank) => bank.location))];
 
   return (
@@ -236,7 +236,7 @@ const BloodBankAdminPage = () => {
         </div>
       </div>
 
-      {/* Modal for Add/Edit Blood Bank */}
+      {/* Modal - Add/Edit Blood Bank*/}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
