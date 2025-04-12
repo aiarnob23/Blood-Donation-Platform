@@ -1,5 +1,6 @@
 import { serverBaseUrl } from "@/utils/serverUrl";
 
+
 //get all appointments list
 export const getAllAppointments = async () => {
   try {

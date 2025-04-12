@@ -15,6 +15,8 @@ import {
 import { postAppointmentRequest } from "@/service/appointmentService";
 import { successMessage } from "@/utils/alertMessages";
 
+
+
 const bloodGroups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
 export default function ScheduleAppointment() {

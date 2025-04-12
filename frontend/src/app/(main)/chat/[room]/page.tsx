@@ -2,7 +2,7 @@
 import Cookies from "js-cookie";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-import { useSocket } from "@/context/SocketProvider";
+
 import {
   addNewMessage,
   getRoomChatHistory,
@@ -10,6 +10,7 @@ import {
 } from "@/service/chatService";
 import Link from "next/link";
 import { getUsersProfileInfo } from "@/service/userService";
+import { useSocket } from "@/context/SocketProvider";
 
 export default function Chat() {
   const router = useRouter();
@@ -41,7 +42,7 @@ export default function Chat() {
   const [chatBuddyProfile, setChatBuddyProfile] = useState<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto scroll 
+  // Auto scroll
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop =
@@ -66,7 +67,7 @@ export default function Chat() {
     return groups;
   };
 
-  // Format date 
+  // Format date
   const formatDate = (dateString: string) => {
     const today = new Date().toLocaleDateString();
     const yesterday = new Date();
@@ -78,7 +79,7 @@ export default function Chat() {
     return dateString;
   };
 
-  //  previous chat history 
+  //  previous chat history
   useEffect(() => {
     const fetchChatHistory = async () => {
       if (decodedRoom) {
@@ -91,7 +92,6 @@ export default function Chat() {
           if (history) {
             await updateMessageReadStatus(decodedRoom, selfUserId as string);
 
-            // Let other users know we've read their messages
             socket?.emit("mark-messages-read", {
               room: decodedRoom,
               readerId: selfUserId,
@@ -107,7 +107,8 @@ export default function Chat() {
                     ? "You"
                     : buddy?.name || "Chat Buddy",
                 isRead: msg.isRead,
-                timestamp: msg.timestamp || msg.createdAt || new Date().toISOString(),
+                timestamp:
+                  msg.timestamp || msg.createdAt || new Date().toISOString(),
               }))
             );
 
@@ -124,12 +125,60 @@ export default function Chat() {
     fetchChatHistory();
   }, [decodedRoom, selfUserId, chatBuddyUserId, socket]);
 
-  // Scroll to bottom 
+  useEffect(() => {
+    if (!decodedRoom || isLoading) return;
+    const fetchLatestMessages = async () => {
+      try {
+        const response = await getRoomChatHistory(decodedRoom);
+        const history = response.data[0]?.messages;
+
+        if (history) {
+          const transformedMessages = history.map((msg: any) => ({
+            id: msg._id || msg.id,
+            msg: msg.message,
+            fromSelf: msg.senderId === selfUserId,
+            sender:
+              msg.senderId === selfUserId
+                ? "You"
+                : chatBuddyProfile?.name || "Chat Buddy",
+            isRead: msg.isRead,
+            timestamp:
+              msg.timestamp || msg.createdAt || new Date().toISOString(),
+          }));
+
+          if (
+            JSON.stringify(transformedMessages) !== JSON.stringify(messages)
+          ) {
+            setMessages(transformedMessages);
+            const hasNewMessages = transformedMessages.length > messages.length;
+            if (hasNewMessages) {
+              await updateMessageReadStatus(decodedRoom, selfUserId as string);
+
+              socket?.emit("mark-messages-read", {
+                room: decodedRoom,
+                readerId: selfUserId,
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error refreshing messages:", error);
+      }
+    };
+
+    // interval
+    const intervalId = setInterval(fetchLatestMessages, 3000);
+
+    // Clean interval
+    return () => clearInterval(intervalId);
+  }, [decodedRoom, selfUserId, isLoading, messages, chatBuddyProfile, socket]);
+
+  // Scroll to bottom
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
-  // Focus input 
+  // Focus input
   useEffect(() => {
     if (inputRef.current && !isLoading) {
       inputRef.current.focus();
@@ -175,7 +224,6 @@ export default function Chat() {
       // Listen for message read events
       socket.on("messages-marked-read", (data) => {
         if (data.room === decodedRoom && data.readerId === chatBuddyUserId) {
-          // Update all messages sent by self as read
           setMessages((prevMessages) =>
             prevMessages.map((msg) =>
               msg.fromSelf ? { ...msg, isRead: true } : msg
@@ -214,13 +262,12 @@ export default function Chat() {
             sender:
               data.sender ||
               (fromSelf ? "You" : chatBuddyProfile?.name || "Chat Buddy"),
-            isRead: fromSelf ? isChatBuddyInRoom : true, // Set isRead based on chat buddy being in THIS room
+            isRead: fromSelf ? isChatBuddyInRoom : true, 
             timestamp: data.timestamp || new Date().toISOString(),
           };
 
           setMessages((prevMessages) => [...prevMessages, newMessage]);
 
-          //self active and mark it as read
           if (!fromSelf) {
             socket.emit("mark-messages-read", {
               room: decodedRoom,
@@ -320,7 +367,6 @@ export default function Chat() {
     }
   };
 
-  // Handle pressing Enter key to send message
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSendMessage();

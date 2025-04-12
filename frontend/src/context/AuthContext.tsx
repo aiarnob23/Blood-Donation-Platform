@@ -8,8 +8,9 @@ import {
 import Cookies from "js-cookie";
 import { GoogleAuthProvider } from "firebase/auth";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import auth from "@/firebase/firebase.config";
+
 import { getUSerId } from "@/service/userService";
+import auth from "../firebase/firebase.config";
 
 // Type for the context
 interface AuthContextType {
@@ -66,7 +67,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => unSubscribe(); // Cleanup function
-  }, []); 
+  }, []);
 
   // Auth info
   const authInfo: AuthContextType = {

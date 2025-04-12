@@ -8,6 +8,7 @@ import NavbarSkeleton from "../skeletons/NavbarSkeleton";
 import Cookies from "js-cookie";
 import { getUnreadMessagesCount } from "@/service/chatService";
 import { useSocket } from "@/context/SocketProvider";
+import { getUsersProfileInfo } from "@/service/userService";
 
 export default function Navbar() {
   const authContext = useContext(AuthContext);
@@ -21,40 +22,47 @@ export default function Navbar() {
   const [unReadMessages, setUnReadMessages] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [name, setName] = useState<any>("User");
 
-
+  console.log(user?.email);
+  useEffect(() => {
+    const findUserName = async () => {
+      const userDetails = await getUsersProfileInfo(userId as string);
+      setName(userDetails?.name);
+    };
+    findUserName();
+  }, [userId]);
   // Default avatar
   const defaultAvatar = "/images/profile/default-profile.png";
 
   // Handle loading state and fetch unread messages
- useEffect(() => {
-   const fetchUnreadCount = async () => {
-     if (userId) {
-       try {
-         const counts = await getUnreadMessagesCount(userId);
-         setUnReadMessages(counts?.data);
-       } catch (error) {
-         console.error("Error fetching unread message count:", error);
-       }
-     }
-     setIsLoading(false);
-   };
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      if (userId) {
+        try {
+          const counts = await getUnreadMessagesCount(userId);
+          setUnReadMessages(counts?.data);
+        } catch (error) {
+          console.error("Error fetching unread message count:", error);
+        }
+      }
+      setIsLoading(false);
+    };
 
-   fetchUnreadCount();
+    fetchUnreadCount();
 
+    const interval = setInterval(fetchUnreadCount, 3000);
 
-   const interval = setInterval(fetchUnreadCount, 10000);
+    if (socket) {
+      socket.on("new-message-alert", fetchUnreadCount);
+      return () => {
+        socket.off("new-message-alert", fetchUnreadCount);
+        clearInterval(interval);
+      };
+    }
 
-   if (socket) {
-     socket.on("new-message-alert", fetchUnreadCount);
-     return () => {
-       socket.off("new-message-alert", fetchUnreadCount);
-       clearInterval(interval);
-     };
-   }
-
-   return () => clearInterval(interval); 
- }, [userId, socket]);
+    return () => clearInterval(interval);
+  }, [userId, socket]);
 
   //skeleton while loading
   if (isLoading) {
@@ -120,7 +128,7 @@ export default function Navbar() {
                   src={defaultAvatar}
                   alt="profile"
                 />
-                <div>{user?.displayName}</div>
+                {name && <div>{name}</div>}
               </Link>
             )}
           </div>
