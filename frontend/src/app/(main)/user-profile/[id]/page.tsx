@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { createRoom } from "@/utils/chatRoomGenerate";
+import withAuth from "@/lib/hoc/withAuth";
 
 
 
@@ -39,7 +40,7 @@ interface UserInfo {
   __v: number;
 }
 
-export default function UserProfile() {
+function UserProfile() {
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -597,3 +598,6 @@ export default function UserProfile() {
     </div>
   );
 }
+
+
+export default withAuth(UserProfile);
