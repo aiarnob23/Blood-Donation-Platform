@@ -33,8 +33,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
-export default function AdminHome() {
+const AdminHome = () => {
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalPosts: 0,
@@ -341,6 +342,8 @@ export default function AdminHome() {
     </div>
   );
 }
+
+export default withAdminAuth(AdminHome);
 
 // Enhanced StatCard Component
 const StatCard = ({ title, value, link, icon, color = "blue" }:{title:string,value:any,link:any,icon:any,color:any}) => {

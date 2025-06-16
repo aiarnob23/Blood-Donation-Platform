@@ -20,7 +20,7 @@ import {
   Bell,
 } from "lucide-react";
 import { getUserDetails, updateUserDetails } from "../../services/userService";
-
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
 //User Interface//
 interface UserData {
@@ -74,7 +74,7 @@ const defaultUserData: UserData = {
   isBanned: false,
 };
 
-const EditUserProfile = () => {
+const EditUserProfile = withAdminAuth(() => {
   const {userId}  = useParams();
   const [userData, setUserData] = useState<UserData>(defaultUserData);
   const [isLoading, setIsLoading] = useState(false);
@@ -614,6 +614,6 @@ const EditUserProfile = () => {
       </div>
     </div>
   );
-};
+});
 
-export default EditUserProfile;
+  export default EditUserProfile;

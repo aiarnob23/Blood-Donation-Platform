@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 
 import { Calendar, MapPin, User, Trash2, Filter, X } from "lucide-react";
 import { getAllPosts } from "../services/postService";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
-export default function Posts() {
+const Posts = () => {
   const [posts, setPosts] = useState<any>([]);
   const [filteredPosts, setFilteredPosts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -349,3 +350,4 @@ export default function Posts() {
     </div>
   );
 }
+export default withAdminAuth(Posts);

@@ -8,7 +8,6 @@ import NavbarSkeleton from "../skeletons/NavbarSkeleton";
 import Cookies from "js-cookie";
 import { getUnreadMessagesCount } from "@/service/chatService";
 import { useSocket } from "@/context/SocketProvider";
-import { getUsersProfileInfo } from "@/service/userService";
 
 export default function Navbar() {
   const authContext = useContext(AuthContext);
@@ -22,16 +21,9 @@ export default function Navbar() {
   const [unReadMessages, setUnReadMessages] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [name, setName] = useState<any>("User");
 
-  console.log(user?.email);
-  useEffect(() => {
-    const findUserName = async () => {
-      const userDetails = await getUsersProfileInfo(userId as string);
-      setName(userDetails?.name);
-    };
-    findUserName();
-  }, [userId]);
+
+;
   // Default avatar
   const defaultAvatar = "/images/profile/default-profile.png";
 
@@ -51,7 +43,7 @@ export default function Navbar() {
 
     fetchUnreadCount();
 
-    const interval = setInterval(fetchUnreadCount, 3000);
+    const interval = setInterval(fetchUnreadCount, 10000);
 
     if (socket) {
       socket.on("new-message-alert", fetchUnreadCount);
@@ -128,7 +120,7 @@ export default function Navbar() {
                   src={defaultAvatar}
                   alt="profile"
                 />
-                {name && <div>{name}</div>}
+                {user && <div>{user.displayName}</div>}
               </Link>
             )}
           </div>

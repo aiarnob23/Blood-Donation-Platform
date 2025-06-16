@@ -121,7 +121,8 @@ export default function SignIn() {
           </button>
 
           <span className="flex justify-center items-center my-5 text-gray-600">
-            Are you admin? <Link className="btn ml-2 text-gray-700 border-2 border-gray-200 rounded-lg" href='/auth/admin-login'>Admin Sign In</Link>
+          <Link href='/auth/admin-login' className="text-blue-600 hover:underline text-lg">
+            Are you Admin? </Link>
           </span>
 
           {/* Terms & Conditions */}

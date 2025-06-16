@@ -6,6 +6,7 @@ import Link from "next/link";
 import AppointmentSkeleton from "../_components/skeletons/AppointmentSkeleton";
 import { getAllAppointments } from "../services/appointmentSerive";
 import { CheckCircle } from "lucide-react";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
 // Appointment interfaces
 interface Appointment {
@@ -25,7 +26,7 @@ interface SortConfig {
   direction: "asc" | "desc";
 }
 
-export default function Appointments() {
+const Appointments = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -388,3 +389,4 @@ export default function Appointments() {
     </div>
   );
 }
+export default withAdminAuth(Appointments);

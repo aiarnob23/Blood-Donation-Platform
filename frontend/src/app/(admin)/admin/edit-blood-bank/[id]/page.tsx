@@ -9,6 +9,7 @@ import {
 } from "../../services/bloodBanksService";
 import { ArrowLeft, MapPin, Phone, Trash2 } from "lucide-react";
 import Link from "next/link";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
 const EditBloodBankPage = () => {
   const { id } = useParams();
@@ -265,4 +266,4 @@ const EditBloodBankPage = () => {
   );
 };
 
-export default EditBloodBankPage;
+export default withAdminAuth(EditBloodBankPage);

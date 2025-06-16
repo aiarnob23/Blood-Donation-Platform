@@ -4,8 +4,9 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, MapPin, Phone, User } from "lucide-react";
 import Link from "next/link";
 import { getCampaignDetails, updateCampaign } from "../../services/campaignService";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
-export default function EditCampaignPage() {
+const EditCampaignPage = () => {
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -323,3 +324,4 @@ export default function EditCampaignPage() {
     </div>
   );
 }
+export default withAdminAuth(EditCampaignPage);

@@ -8,6 +8,7 @@ import {
   getAllBloodBanks,
 } from "../services/bloodBanksService";
 import { useRouter } from "next/navigation";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
 const BloodBankAdminPage = () => {
   const [bloodBanks, setBloodBanks] = useState<any[]>([]);
@@ -394,4 +395,4 @@ const BloodBankAdminPage = () => {
   );
 };
 
-export default BloodBankAdminPage;
+export default withAdminAuth(BloodBankAdminPage);

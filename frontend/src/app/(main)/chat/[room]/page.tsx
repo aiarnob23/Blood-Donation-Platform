@@ -168,7 +168,7 @@ function Chat() {
     };
 
     // interval
-    const intervalId = setInterval(fetchLatestMessages, 3000);
+    const intervalId = setInterval(fetchLatestMessages, 7000);
 
     // Clean interval
     return () => clearInterval(intervalId);

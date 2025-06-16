@@ -32,6 +32,7 @@ export default function AdminLoginPage() {
 
         const data = await response.json();
       if (response.ok && data.success) {
+        localStorage.setItem('admin', JSON.stringify(data.success));
         setTimeout(() => {
             successMessage('Login Success')
             window.location.replace('/admin');

@@ -7,8 +7,9 @@ import {
   getAllCampaigns,
   addNewCampaign,
 } from "../services/campaignService";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
-export default function CampaignListPage() {
+const CampaignListPage = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -462,3 +463,4 @@ export default function CampaignListPage() {
     </div>
   );
 }
+export default withAdminAuth(CampaignListPage);

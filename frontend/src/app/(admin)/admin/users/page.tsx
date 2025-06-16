@@ -20,8 +20,9 @@ import {
 } from "lucide-react";
 import { getAllUers } from "../services/userService";
 import Link from "next/link";
+import withAdminAuth from "@/lib/hoc/withAdminAuth";
 
-export default function Users() {
+const Users = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [showFilters, setShowFilters] = useState<boolean>(false);
@@ -581,3 +582,4 @@ export default function Users() {
     </div>
   );
 }
+export default withAdminAuth(Users);
