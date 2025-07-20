@@ -15,58 +15,82 @@ export default function Banner() {
   }, []);
 
   const bannerAnimations = contextSafe(function () {
-    gsap.fromTo(
+    const tl = gsap.timeline();
+    tl.fromTo(
       ".banner-image",
       {
-        x: 1200,
+        x: window.innerWidth > 1024 ? 1200 : 300,
         opacity: 0,
       },
       {
         x: 0,
         opacity: 1,
-        duration: 2,
+        duration: window.innerWidth > 1024 ? 2 : 1.5,
         ease: "power2.out",
       }
-    );
-    gsap.fromTo(
-      ".banner-h2",
-      { x: 600, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1 , delay:1 }
-    );
-    gsap.fromTo(
-      ".banner-content",
-      { x: 600, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1, delay: 1.5 }
-    );
-    gsap.fromTo(
-      ".banner-cta",
-      { x: 600, opacity: 0 },
-      { x: 0, opacity: 1, duration: 1, delay: 1.75 }
-    );
+    )
+      .fromTo(
+        ".banner-h2",
+        {
+          x: window.innerWidth > 1024 ? 600 : 200,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          delay: window.innerWidth > 1024 ? 1 : 0.5,
+        }
+      )
+      .fromTo(
+        ".banner-content",
+        {
+          x: window.innerWidth > 1024 ? 600 : 200,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          delay: window.innerWidth > 1024 ? 1.5 : 0.75,
+        }
+      )
+      .fromTo(
+        ".banner-cta",
+        {
+          x: window.innerWidth > 1024 ? 600 : 200,
+          opacity: 0,
+        },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          delay: window.innerWidth > 1024 ? 1.75 : 1,
+        }
+      );
   });
   // return body
   return (
-    <div className="max-w-screen px-[100px] overflow-hidden mx-auto lg:flex min-h-[800px] lg:items-center lg:gap-[40px] lg:justify-between">
-      <div className="w-[50%] flex justify-center items-center banner-image">
-       <Image
-          className="h-[600px]"
+    <div className="max-w-screen px-[20px] xl:px-[100px] overflow-hidden mx-auto flex-col xl:flex-row gap-[40px] flex xl:min-h-dvh xl:items-center xl:gap-[40px] xl:justify-between">
+      <div className="xl:w-[50%] relative h-full flex justify-center items-center banner-image">
+        <Image
+          className="xl:h-[600px] xl:absolute xl:-bottom-[240px]"
           src={banner}
           alt="banner image"
-          height={800}
         />
       </div>
-      <div className="flex flex-col space-y-[50px] w-[50%] justify-center items-start">
-        <h2 className="banner-h2 text-primary leading-[90px] text-[66px] font-bold">
+      <div className="flex flex-col space-y-[20px] xl:space-y-[50px] xl:w-[50%] justify-center items-center xl:items-start">
+        <h2 className="banner-h2 text-primary xl:leading-[90px] text-[34px] md:text-[56px] xl:text-[76px] font-bold">
           Share Hope, Share Life. <br /> Become a Blood Donor!
         </h2>
-        <div className="banner-content text-[18px] font-semibold flex text-secondary flex-col gap-[8px]">
+        <div className="banner-content text-[16px] xl:text-[22px] font-semibold flex text-secondary flex-col gap-[8px]">
           <p className="leading-[40px]">
             Every year, millions of patients rely on blood donations for
-            life-saving treatments.<br/> Your contribution can make a world of
-            difference.
+            life-saving treatments.
+            <br /> Your contribution can make a world of difference.
           </p>
         </div>
-        <div className="flex gap-12 my-4 banner-cta">
+        <div className="flex gap-[30px] xl:gap-12 my-4 banner-cta">
           <Link href="/donate" className="btn btn-ghost primary-btn">
             Donate Blood
           </Link>
