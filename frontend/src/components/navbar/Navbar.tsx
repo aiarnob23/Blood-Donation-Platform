@@ -21,9 +21,6 @@ export default function Navbar() {
   const [unReadMessages, setUnReadMessages] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-
-;
   // Default avatar
   const defaultAvatar = "/images/profile/default-profile.png";
 

@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode, useMemo } from "react";
 import { io, Socket } from "socket.io-client";
 
 interface SocketContextType {
@@ -29,27 +23,40 @@ interface SocketProviderProps {
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
-  useEffect(() => {
-    // Create a new socket connection for each client
-    const newSocket = io("http://localhost:4001", {
+  const memoizedSocket = useMemo(() => {
+    const newSocket = io("http://localhost:4000", {
       transports: ["websocket"],
       autoConnect: true,
-      // Add this to make socket connections unique per user session
       query: {
         clientId:
           Date.now().toString() + Math.random().toString(36).substring(2, 15),
       },
     });
 
-    setSocket(newSocket);
+    newSocket.on("connect", () => {
+      console.log("✅ Socket connected:", newSocket.id);
+    });
 
-    // Clean up socket connection on unmount
+    newSocket.on("connect_error", (error) => {
+      console.error("❌ Socket connection error:", error);
+    });
+
+    newSocket.on("disconnect", (reason) => {
+      console.log("Socket disconnected:", reason);
+    });
+
+    return newSocket;
+  }, []);
+
+  useEffect(() => {
+    setSocket(memoizedSocket);
+
     return () => {
-      if (newSocket) {
-        newSocket.disconnect();
+      if (memoizedSocket) {
+        memoizedSocket.disconnect();
       }
     };
-  }, []);
+  }, [memoizedSocket]);
 
   return (
     <socketContext.Provider value={{ socket }}>

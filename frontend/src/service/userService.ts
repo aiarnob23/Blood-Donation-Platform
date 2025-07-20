@@ -23,6 +23,16 @@ export const getUserInfoByEmail = async (email: string) => {
     console.log(error);
   }
 };
+//get user info by email (self)
+export const getUserDisplayName = async (id: string) => {
+  try {
+    const response = await fetch(`${serverBaseUrl}/user/display-name/${id}`);
+    const data = await response.json();
+    return data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 //get user info by id (others profile)
 export const getUsersProfileInfo = async (id: string) => {

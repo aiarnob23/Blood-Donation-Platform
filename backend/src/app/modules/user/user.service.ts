@@ -37,6 +37,12 @@ const getUsersDP = async (email: string) => {
   return result;
 };
 
+//get user's display name 
+const getUserName = async(id:string)=>{
+  const result = await User.findOne({_id:id}, {name:1});
+  return result;
+}
+
 //update user info
 const updateUserInfo = async (id: any, payload: any) => {
   const result = await User.findByIdAndUpdate({ _id: id }, payload, {
@@ -79,4 +85,5 @@ export const userServices = {
   getUsersDP,
   getUsersId,
   getDonorsLists,
+  getUserName,
 };

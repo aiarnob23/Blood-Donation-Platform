@@ -9,7 +9,7 @@ import {
   updateMessageReadStatus,
 } from "@/service/chatService";
 import Link from "next/link";
-import { getUsersProfileInfo } from "@/service/userService";
+import { getUserDisplayName, getUsersProfileInfo } from "@/service/userService";
 import { useSocket } from "@/context/SocketProvider";
 import withAuth from "@/lib/hoc/withAuth";
 
@@ -24,21 +24,9 @@ function Chat() {
 
   const [selfSocketId, setSelfSocketId] = useState<string | null>(null);
   const [clientId, setClientId] = useState<string | null>(null);
-  const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState<
-    {
-      id?: string;
-      msg: string;
-      fromSelf: boolean;
-      sender?: string;
-      isRead: boolean;
-      timestamp?: string;
-    }[]
-  >([]);
-  const [connectedUsers, setConnectedUsers] = useState<any[]>([]);
-  const [isChatBuddyOnline, setIsChatBuddyOnline] = useState<boolean>(false);
-  const [isChatBuddyInRoom, setIsChatBuddyInRoom] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [messages, setMessages] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [chatBuddyProfile, setChatBuddyProfile] = useState<any>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -51,326 +39,88 @@ function Chat() {
     }
   };
 
-  // Group messages by date
-  const groupMessagesByDate = () => {
-    const groups: { [key: string]: typeof messages } = {};
-
-    messages.forEach((msg) => {
-      const date = msg.timestamp
-        ? new Date(msg.timestamp).toLocaleDateString()
-        : "Unknown";
-      if (!groups[date]) {
-        groups[date] = [];
-      }
-      groups[date].push(msg);
-    });
-
-    return groups;
-  };
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const today = new Date().toLocaleDateString();
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayString = yesterday.toLocaleDateString();
-
-    if (dateString === today) return "Today";
-    if (dateString === yesterdayString) return "Yesterday";
-    return dateString;
-  };
-
-  //  previous chat history
-  useEffect(() => {
-    const fetchChatHistory = async () => {
-      if (decodedRoom) {
-        setIsLoading(true);
-        try {
-          const buddy = await getUsersProfileInfo(chatBuddyUserId as string);
-          setChatBuddyProfile(buddy);
-          const response = await getRoomChatHistory(decodedRoom);
-          const history = response.data[0]?.messages;
-          if (history) {
-            await updateMessageReadStatus(decodedRoom, selfUserId as string);
-
-            socket?.emit("mark-messages-read", {
-              room: decodedRoom,
-              readerId: selfUserId,
-            });
-
-            setMessages(
-              history.map((msg: any) => ({
-                id: msg._id || msg.id,
-                msg: msg.message,
-                fromSelf: msg.senderId === selfUserId,
-                sender:
-                  msg.senderId === selfUserId
-                    ? "You"
-                    : buddy?.name || "Chat Buddy",
-                isRead: msg.isRead,
-                timestamp:
-                  msg.timestamp || msg.createdAt || new Date().toISOString(),
-              }))
-            );
-
-            setTimeout(scrollToBottom, 100);
-          }
-        } catch (error) {
-          console.error("Error fetching chat history:", error);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchChatHistory();
-  }, [decodedRoom, selfUserId, chatBuddyUserId, socket]);
-
-  useEffect(() => {
-    if (!decodedRoom || isLoading) return;
-    const fetchLatestMessages = async () => {
-      try {
-        const response = await getRoomChatHistory(decodedRoom);
-        const history = response.data[0]?.messages;
-
-        if (history) {
-          const transformedMessages = history.map((msg: any) => ({
-            id: msg._id || msg.id,
-            msg: msg.message,
-            fromSelf: msg.senderId === selfUserId,
-            sender:
-              msg.senderId === selfUserId
-                ? "You"
-                : chatBuddyProfile?.name || "Chat Buddy",
-            isRead: msg.isRead,
-            timestamp:
-              msg.timestamp || msg.createdAt || new Date().toISOString(),
-          }));
-
-          if (
-            JSON.stringify(transformedMessages) !== JSON.stringify(messages)
-          ) {
-            setMessages(transformedMessages);
-            const hasNewMessages = transformedMessages.length > messages.length;
-            if (hasNewMessages) {
-              await updateMessageReadStatus(decodedRoom, selfUserId as string);
-
-              socket?.emit("mark-messages-read", {
-                room: decodedRoom,
-                readerId: selfUserId,
-              });
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Error refreshing messages:", error);
-      }
-    };
-
-    // interval
-    const intervalId = setInterval(fetchLatestMessages, 7000);
-
-    // Clean interval
-    return () => clearInterval(intervalId);
-  }, [decodedRoom, selfUserId, isLoading, messages, chatBuddyProfile, socket]);
-
-  // Scroll to bottom
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  // Focus input
-  useEffect(() => {
-    if (inputRef.current && !isLoading) {
-      inputRef.current.focus();
+  //chat buddy name
+  const getChatBuddyDisplayName = async()=>{
+    const result = await getUserDisplayName(chatBuddyUserId as string);
+    if(result.name){
+      console.log(result.name);
+      setChatBuddyProfile(result.name);
     }
-  }, [isLoading]);
+  }
 
-  // Handle joining the room and socket events
-  useEffect(() => {
-    if (socket) {
-      if (decodedRoom) {
-        socket.emit("set-user-email", userEmail);
-        socket.emit("set-user-id", selfUserId);
+
+  // get chat history
+  const getMessages = async () => {
+    setIsLoading(true);
+    try {
+      const res = await getRoomChatHistory(room as string);
+      if (res?.success) {
+        setMessages(res.data[0].messages);
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  //handle send messages//
+  const handleSendMessages = async () => {
+    console.log(selfUserId, " ", chatBuddyUserId);
+    const messagePayload = {
+      senderId: selfUserId,
+      receiverId: chatBuddyUserId,
+      message: newMessage,
+      isRead: false,
+    };
+    if (!newMessage.trim()) {
+      console.log("Message is empty");
+      return;
+    }
+
+    if (!socket) {
+      console.log("Socket not connected");
+      return;
+    }
+    console.log(socket);
+    console.log("Sending message:", newMessage, "to room:", room);
+    socket.emit("send-message", room, newMessage, selfUserId);
+    const result = await addNewMessage(room as string, messagePayload);
+    setNewMessage("");
+  };
+  console.log(messages);
+
+  
+  // -----------------------------------------//
+  useEffect(() => {
+    getChatBuddyDisplayName();
+    getMessages();
+    if (socket && room) {
       socket.emit("join-room", room);
-
-      socket.emit("user-active-in-room", {
-        room: decodedRoom,
-        userId: selfUserId,
+      socket.on("room-joined", (room: any) => {
+        console.log(room);
       });
-
-      socket.on("joinRoomNavigate", (data) => {
-        if (socket.id === data.socketId) {
-          setSelfSocketId(data.socketId);
-          setClientId(data.clientId);
+      // receive message---------
+      socket.on("receive-message", (data) => {
+        console.log("Received message:", data);
+        if (data) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              message: data.message,
+              senderId: data.senderId,
+            },
+          ]);
         }
       });
-
-      socket.on("joinedRoomsDetailsPass", (data) => {
-        setConnectedUsers(data.connectedUsers || []);
-      });
-
-      socket.on("user-active-status", (data) => {
-        if (data.userId === chatBuddyUserId) {
-          setIsChatBuddyOnline(data.isActive);
-
-          if (data.room === decodedRoom) {
-            setIsChatBuddyInRoom(data.isActive);
-          }
-        }
-      });
-
-      // Listen for message read events
-      socket.on("messages-marked-read", (data) => {
-        if (data.room === decodedRoom && data.readerId === chatBuddyUserId) {
-          setMessages((prevMessages) =>
-            prevMessages.map((msg) =>
-              msg.fromSelf ? { ...msg, isRead: true } : msg
-            )
-          );
-        }
-      });
-
-      // Listen for "buddy seen messages" events
-      socket.on("buddy-seen-messages", (data) => {
-        if (data.room === decodedRoom && data.senderId === chatBuddyUserId) {
-          // Mark as read
-          setMessages((prevMessages) =>
-            prevMessages.map((msg) =>
-              !msg.fromSelf ? { ...msg, isRead: true } : msg
-            )
-          );
-        }
-      });
-
-      socket.on(
-        "message",
-        async (data: {
-          id?: string;
-          msg: string;
-          socketId: string;
-          clientId: string;
-          sender?: string;
-          timestamp?: string;
-        }) => {
-          const fromSelf = data.socketId === selfSocketId;
-          const newMessage = {
-            id: data.id,
-            msg: data.msg,
-            fromSelf,
-            sender:
-              data.sender ||
-              (fromSelf ? "You" : chatBuddyProfile?.name || "Chat Buddy"),
-            isRead: fromSelf ? isChatBuddyInRoom : true, 
-            timestamp: data.timestamp || new Date().toISOString(),
-          };
-
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
-
-          if (!fromSelf) {
-            socket.emit("mark-messages-read", {
-              room: decodedRoom,
-              readerId: selfUserId,
-            });
-
-            //update read status in database
-            try {
-              await updateMessageReadStatus(
-                decodedRoom as string,
-                selfUserId as string
-              );
-            } catch (error) {
-              console.error("Error updating read status:", error);
-            }
-          }
-        }
-      );
     }
+  }, [socket, room]);
 
-    return () => {
-      if (socket) {
-        socket.emit("user-inactive-in-room", {
-          room: decodedRoom,
-          userId: selfUserId,
-        });
-
-        socket.off("joinRoomNavigate");
-        socket.off("joinedRoomsDetailsPass");
-        socket.off("message");
-        socket.off("user-active-status");
-        socket.off("messages-marked-read");
-        socket.off("buddy-seen-messages");
-      }
-    };
-  }, [
-    socket,
-    room,
-    selfSocketId,
-    decodedRoom,
-    selfUserId,
-    chatBuddyUserId,
-    isChatBuddyOnline,
-    isChatBuddyInRoom,
-    chatBuddyProfile,
-  ]);
-
-  // Handle sending a message
-  const handleSendMessage = async () => {
-    if (message.trim() && socket) {
-      const timestamp = new Date().toISOString();
-      const messageData = {
-        connectedUsers: connectedUsers,
-        msg: message,
-        socketId: selfSocketId,
-        clientId: clientId,
-        room: room,
-        sender: "You",
-        timestamp,
-      };
-
-      socket.emit("message", messageData);
-
-      const data = {
-        senderId: selfUserId,
-        receiverId: chatBuddyUserId,
-        message: message,
-        isRead: isChatBuddyInRoom,
-        timestamp: timestamp,
-      };
-
-      try {
-        const response = await addNewMessage(decodedRoom as string, data);
-        // Update messages
-        if (response?.data?.id) {
-          setMessages((prevMessages) => {
-            const updatedMessages = [...prevMessages];
-            const lastIndex = updatedMessages.length - 1;
-            if (lastIndex >= 0) {
-              updatedMessages[lastIndex] = {
-                ...updatedMessages[lastIndex],
-                id: response.data.id,
-              };
-            }
-            return updatedMessages;
-          });
-        }
-      } catch (error) {
-        console.error("Error saving message:", error);
-      }
-
-      setMessage("");
-
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    }
-  };
-
+  console.log(messages);
+ 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSendMessage();
+      handleSendMessages();
     }
   };
 
@@ -380,7 +130,10 @@ function Chat() {
     const date = new Date(timestamp);
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
-
+  // Scroll to bottom
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
   return (
     <div className="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen flex flex-col">
       {/* Header */}
@@ -416,34 +169,16 @@ function Chat() {
             ) : (
               <>
                 <Link
-                  href={`/user-profile/${chatBuddyProfile?._id}`}
+                  href={`/user-profile/${chatBuddyUserId}`}
                   className="flex items-center group"
                 >
                   <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold ring-2 ring-blue-100">
-                    {chatBuddyProfile?.name?.[0] || "?"}
+                    {chatBuddyProfile?.[0] || "?"}
                   </div>
                   <div className="ml-3">
                     <h1 className="font-medium text-gray-900 group-hover:text-blue-600 transition">
-                      {chatBuddyProfile?.name || "Chat Buddy"}
+                      {chatBuddyProfile || "Chat Buddy"}
                     </h1>
-                    <div className="flex items-center">
-                      <span
-                        className={`h-2 w-2 rounded-full ${
-                          isChatBuddyOnline
-                            ? isChatBuddyInRoom
-                              ? "bg-green-500"
-                              : "bg-yellow-500"
-                            : "bg-gray-400"
-                        } mr-1`}
-                      ></span>
-                      <span className="text-xs text-gray-500">
-                        {isChatBuddyOnline
-                          ? isChatBuddyInRoom
-                            ? "Active now"
-                            : "Online"
-                          : "Offline"}
-                      </span>
-                    </div>
                   </div>
                 </Link>
               </>
@@ -502,96 +237,38 @@ function Chat() {
                   No messages yet
                 </h3>
                 <p className="text-gray-500 max-w-xs">
-                  Send a message to {chatBuddyProfile?.name || "your buddy"} to
+                  Send a message to {chatBuddyProfile || "your buddy"} to
                   start the conversation!
                 </p>
               </div>
             ) : (
               <>
-                {Object.entries(groupMessagesByDate()).map(([date, msgs]) => (
-                  <div key={date} className="mb-4">
-                    <div className="flex justify-center mb-3">
-                      <span className="px-3 py-1 bg-gray-100 text-gray-500 text-xs font-medium rounded-full">
-                        {formatDate(date)}
-                      </span>
-                    </div>
-                    {msgs.map((message, index) => (
-                      <div
-                        key={index}
-                        className={`flex flex-col mb-3 ${
-                          message.fromSelf ? "items-end" : "items-start"
-                        }`}
-                      >
-                        <div className="flex items-end mb-1">
-                          {!message.fromSelf && (
-                            <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-700 mr-2">
-                              {chatBuddyProfile?.name?.[0] || "?"}
-                            </div>
-                          )}
-                          <div
-                            className={`px-4 py-2 rounded-2xl max-w-xs sm:max-w-md shadow-sm ${
-                              message.fromSelf
-                                ? "bg-blue-500 text-white rounded-br-none"
-                                : "bg-gray-100 text-gray-800 rounded-bl-none"
-                            }`}
-                          >
-                            <div className="whitespace-pre-wrap break-words">
-                              {message.msg}
+                <div className="mb-4">
+                  <div className="flex justify-center mb-3"></div>
+                  {/*messages history */}
+                  <div>
+                    {messages.map((msg: any , index:number) => (
+                      <div className="" key={index}>
+                        {msg.senderId === selfUserId ? (
+                          <div className="w-full flex justify-end">
+                            <div className="bg-blue-500 px-[12px] py-[8px] my-[6px] rounded-[12px] text-white">
+                              {msg.message}
                             </div>
                           </div>
-                        </div>
-                        <div
-                          className={`flex items-center text-xs text-gray-400 ${
-                            message.fromSelf
-                              ? "justify-end"
-                              : "justify-start ml-8"
-                          }`}
-                        >
-                          <span>{formatTime(message.timestamp)}</span>
-                          {message.fromSelf && (
-                            <span className="ml-2">
-                              {message.isRead ? (
-                                <span className="flex items-center">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-3 w-3 text-blue-500"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </svg>
-                                </span>
-                              ) : (
-                                <span className="flex items-center">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-3 w-3"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </svg>
-                                </span>
-                              )}
-                            </span>
-                          )}
-                        </div>
+                        ) : (
+                          <>
+                            {" "}
+                            <div className="w-full flex justify-start">
+                              <div className="bg-base-300 px-[12px] py-[8px] my-[6px] rounded-[12px] text-gray-700">
+                                {msg.message}
+                              </div>
+                            </div>
+                          </>
+                        )}
                       </div>
                     ))}
                   </div>
-                ))}
+                </div>
               </>
             )}
           </div>
@@ -618,18 +295,18 @@ function Chat() {
           <input
             ref={inputRef}
             type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder={`Message ${chatBuddyProfile?.name || ""}...`}
+            placeholder={`Message ${chatBuddyProfile || ""}...`}
             className="flex-1 py-3 px-4 bg-gray-50 border border-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300"
             disabled={isLoading}
           />
           <button
-            onClick={handleSendMessage}
-            disabled={!message.trim() || isLoading}
+            onClick={handleSendMessages}
+            disabled={!newMessage.trim() || isLoading}
             className={`p-3 rounded-full text-white shadow-sm transition-all ${
-              message.trim() && !isLoading
+              newMessage.trim() && !isLoading
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-gray-300 cursor-not-allowed"
             }`}

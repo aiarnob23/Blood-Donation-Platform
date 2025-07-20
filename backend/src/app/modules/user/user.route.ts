@@ -11,4 +11,5 @@ router.get(`/user-id/:email`, userController.getUsersId);
 router.get("/donors-lists", userController.getDonorLists);
 router.patch(`/update/:id`,userController.updateUsersDetails);
 router.get(`/chat-lists/:email`, userController.findUsersChatLists);
+router.get(`/display-name/:id`, userController.getUserDisplayName);
 export const userRoutes = router;

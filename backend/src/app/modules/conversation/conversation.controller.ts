@@ -25,8 +25,7 @@ const getConversationHistory = catchAsync(async (req, res) => {
 //add new messages to chat
 const addNewMessage = catchAsync(async (req, res) => {
   const { roomId, message } = req.body;
-  console.log('req aise');
-  console.log(roomId, ' ', message);
+  console.log(roomId, message);
 
   if (!roomId || !message) {
     return sendResponse(res, {
