@@ -126,7 +126,7 @@ export default function FAQ() {
           </div>
 
           {/* Additional Help */}
-          <div className="mt-12 bg-red-50 p-6 rounded-lg text-center">
+          <div className="mt-[60px] bg-red-50 p-6 rounded-lg text-center">
             <h3 className="text-xl font-semibold mb-3">
               Still have questions?
             </h3>

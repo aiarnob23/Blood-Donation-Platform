@@ -15,59 +15,34 @@ export default function Banner() {
   }, []);
 
   const bannerAnimations = contextSafe(function () {
-    const tl = gsap.timeline();
-    tl.fromTo(
+    gsap.fromTo(
       ".banner-image",
       {
-        x: window.innerWidth > 1024 ? 1200 : 300,
+        x: 1200,
         opacity: 0,
       },
       {
         x: 0,
         opacity: 1,
-        duration: window.innerWidth > 1024 ? 2 : 1.5,
+        duration: 2,
         ease: "power2.out",
       }
-    )
-      .fromTo(
-        ".banner-h2",
-        {
-          x: window.innerWidth > 1024 ? 600 : 200,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          delay: window.innerWidth > 1024 ? 1 : 0.5,
-        }
-      )
-      .fromTo(
-        ".banner-content",
-        {
-          x: window.innerWidth > 1024 ? 600 : 200,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          delay: window.innerWidth > 1024 ? 1.5 : 0.75,
-        }
-      )
-      .fromTo(
-        ".banner-cta",
-        {
-          x: window.innerWidth > 1024 ? 600 : 200,
-          opacity: 0,
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          delay: window.innerWidth > 1024 ? 1.75 : 1,
-        }
-      );
+    );
+    gsap.fromTo(
+      ".banner-h2",
+      { x: 600, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1, delay: 1 }
+    );
+    gsap.fromTo(
+      ".banner-content",
+      { x: 600, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1, delay: 1.5 }
+    );
+    gsap.fromTo(
+      ".banner-cta",
+      { x: 600, opacity: 0 },
+      { x: 0, opacity: 1, duration: 1, delay: 1.75 }
+    );
   });
   // return body
   return (

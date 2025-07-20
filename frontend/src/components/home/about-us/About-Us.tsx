@@ -1,21 +1,123 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger"; 
 
 export default function AboutUs() {
+
+  // animation
+  gsap.registerPlugin(ScrollTrigger);
+  const { contextSafe } = useGSAP();
+  useEffect(() => {
+    aboutUsAnimations();
+  }, []);
+
+  const aboutUsAnimations = contextSafe(function () {
+    gsap.fromTo(
+      ".about-heading",
+      { x: 500, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".about-heading",
+          start: "top 80%", 
+          toggleActions: "play none none none", 
+          once: true, 
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".mission-statement-card",
+      { x: -100, opacity: 0 },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.3,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".mission-statement-card",
+          start: "top 80%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".what-we-do-card",
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".what-we-do-card",
+          start: "top 80%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".impact-section",
+      { scale: 0.9, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 1,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: ".impact-section",
+          start: "top 80%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      }
+    );
+
+    gsap.fromTo(
+      ".contact-card",
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".contact-card",
+          start: "top 80%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      }
+    );
+  });
+
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-red-600 mb-4">About Us</h2>
+          <h2 className="text-4xl font-bold text-red-600 mb-4 about-heading">About Us</h2>
           <div className="w-24 h-1 bg-red-600 mx-auto"></div>
         </div>
 
-        {/* Mission Statement - Wider layout */}
+        {/* Mission Statement */}
         <div className="mb-16 max-w-5xl mx-auto">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6">
+          <h3 className="text-2xl text-center font-semibold text-gray-800 mb-[40px] about-heading">
             Our Mission
           </h3>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-red-50 p-8 rounded-xl shadow-sm">
+            <div className="bg-red-50 p-8 rounded-xl shadow-sm mission-statement-card">
               <p className="text-lg text-gray-700 leading-relaxed">
                 At BloodConnect, we're dedicated to bridging the gap between
                 blood donors and those in need through a user-friendly platform.
@@ -24,7 +126,7 @@ export default function AboutUs() {
                 help at a moment's notice.
               </p>
             </div>
-            <div className="bg-red-50 p-8 rounded-xl shadow-sm">
+            <div className="bg-red-50 p-8 rounded-xl shadow-sm mission-statement-card">
               <p className="text-lg text-gray-700 leading-relaxed">
                 Founded in 2025, we've grown from a small community initiative
                 to a nationwide network of compassionate individuals committed
@@ -36,13 +138,13 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {/* What We Do - 4 columns with new notification feature */}
+        {/* What We Do */}
         <div className="mb-16">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-[40px] text-center about-heading">
             What We Do
           </h3>
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow what-we-do-card">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-5 mx-auto">
                 <svg
                   className="w-8 h-8 text-red-600"
@@ -68,7 +170,7 @@ export default function AboutUs() {
               </p>
             </div>
 
-            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow what-we-do-card">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-5 mx-auto">
                 <svg
                   className="w-8 h-8 text-red-600"
@@ -94,7 +196,7 @@ export default function AboutUs() {
               </p>
             </div>
 
-            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow what-we-do-card">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-5 mx-auto">
                 <svg
                   className="w-8 h-8 text-red-600"
@@ -120,7 +222,7 @@ export default function AboutUs() {
               </p>
             </div>
 
-            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-red-50 p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow what-we-do-card">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-5 mx-auto">
                 <svg
                   className="w-8 h-8 text-red-600"
@@ -148,12 +250,12 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {/* Impact Section - Enhanced visuals */}
+        {/* Impact Section */}
         <div className="mb-16">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-[40px] text-center about-heading">
             Our Impact
           </h3>
-          <div className="bg-gradient-to-r from-red-500 to-red-700 text-white p-10 rounded-xl shadow-lg">
+          <div className="bg-gradient-to-r from-red-500 to-red-700 text-white p-10 rounded-xl shadow-lg impact-section">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div className="bg-white/10 p-6 rounded-lg backdrop-blur-sm">
                 <div className="text-4xl font-bold mb-2">200+</div>
@@ -175,13 +277,13 @@ export default function AboutUs() {
           </div>
         </div>
 
-        {/* Contact Information - Better layout */}
+        {/* Contact Information */}
         <div>
-          <h3 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-[40px] text-center about-heading">
             Contact Us
           </h3>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 p-8 rounded-xl shadow-sm">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-50 p-8 rounded-xl shadow-sm contact-card">
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-5">
                   <svg
@@ -216,7 +318,7 @@ export default function AboutUs() {
               </div>
             </div>
 
-            <div className="bg-gray-50 p-8 rounded-xl shadow-sm">
+            <div className="bg-gray-50 p-8 rounded-xl shadow-sm contact-card">
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-5">
                   <svg
@@ -243,7 +345,7 @@ export default function AboutUs() {
               </div>
             </div>
 
-            <div className="bg-gray-50 p-8 rounded-xl shadow-sm">
+            <div className="bg-gray-50 p-8 rounded-xl shadow-sm contact-card">
               <div className="flex flex-col items-center">
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-5">
                   <svg
