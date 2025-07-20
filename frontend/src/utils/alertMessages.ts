@@ -10,3 +10,13 @@ export const successMessage = (message:any) => {
       timer: 1500,
     });
 }
+//error message
+export const errorMessage = (message:any)=>{
+  Swal.fire({
+    position:"bottom-end",
+    icon:"error",
+    title:`${message}`,
+    showConfirmButton:false,
+    timer:1500,
+  })
+}

@@ -86,7 +86,7 @@ function ViewAppointments() {
     }
   };
 
-  // Filter appointments based on selected filters
+  // Filter appointments 
   const filteredAppointments = appointments.filter((appointment) => {
     const statusMatch =
       filterStatus === "All" || appointment.status === filterStatus;
@@ -120,7 +120,7 @@ function ViewAppointments() {
     });
   };
 
-  //  status badge color based on status
+  //  status  color 
   const getStatusColor = (status: Appointment["status"]): string => {
     switch (status) {
       case "Pending":
@@ -224,8 +224,8 @@ function ViewAppointments() {
       {/* Appointments List */}
       {sortedAppointments.length === 0 ? (
         <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <p className="text-lg text-gray-500">
-            No appointments found matching your filters.
+          <p className="text-lg text-red-500 font-semibold">
+            No appointments found.
           </p>
         </div>
       ) : (

@@ -15,46 +15,42 @@ export default function Navbar() {
     throw new Error("AuthContext is not provided.");
   }
 
-  const { user } = authContext;
+  const { loading, user } = authContext;
   const userId = Cookies.get("selfId");
   const socket = useSocket();
   const [unReadMessages, setUnReadMessages] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  // Default avatar
   const defaultAvatar = "/images/profile/default-profile.png";
 
-  // Handle loading state and fetch unread messages
+  // fetch unread messages
+  const fetchUnreadCount = async (userId: string) => {
+    console.log("fetchin new unread");
+    try {
+      console.log("attempting fetch data");
+      const counts = await getUnreadMessagesCount(userId);
+      setUnReadMessages(counts?.data);
+    } catch (error) {
+      console.error("Error fetching unread message count:", error);
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fetchUnreadCount = async () => {
-      if (userId) {
-        try {
-          const counts = await getUnreadMessagesCount(userId);
-          setUnReadMessages(counts?.data);
-        } catch (error) {
-          console.error("Error fetching unread message count:", error);
-        }
-      }
-      setIsLoading(false);
-    };
-
-    fetchUnreadCount();
-
-    const interval = setInterval(fetchUnreadCount, 10000);
-
     if (socket) {
-      socket.on("new-message-alert", fetchUnreadCount);
+      fetchUnreadCount(userId as string);
+      socket.on("fetch-unread", (notifiedUser) => {
+        console.log("new messages ", notifiedUser);
+        fetchUnreadCount(notifiedUser as string);
+      });
       return () => {
-        socket.off("new-message-alert", fetchUnreadCount);
-        clearInterval(interval);
+        socket.off("fetch-unread", fetchUnreadCount);
       };
     }
-
-    return () => clearInterval(interval);
   }, [userId, socket]);
 
-  //skeleton while loading
-  if (isLoading) {
+  //skeleton
+  if (isLoading || loading) {
     return <NavbarSkeleton />;
   }
 

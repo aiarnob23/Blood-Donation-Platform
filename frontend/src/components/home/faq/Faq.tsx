@@ -134,9 +134,9 @@ export default function FAQ() {
               Our team is here to help with any additional questions about blood
               donation.
             </p>
-            <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+            <a href="mailto:aiarnob23@gmail.com" className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
               Contact Us
-            </button>
+            </a>
           </div>
         </div>
       </div>

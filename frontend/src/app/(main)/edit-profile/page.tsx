@@ -75,7 +75,7 @@ function EditProfile() {
     }
   }, [user]);
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -83,7 +83,7 @@ function EditProfile() {
     });
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -111,7 +111,7 @@ function EditProfile() {
   if (loading && !formData) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-        <div className="w-12 h-12 border-4 border-t-blue-600 border-blue-200 rounded-full animate-spin mb-4"></div>
+        <div className="w-12 h-12 border-4 border-t-red-600 border-red-200 rounded-full animate-spin mb-4"></div>
         <div className="text-xl font-medium text-gray-700">
           Loading your profile...
         </div>
@@ -125,8 +125,7 @@ function EditProfile() {
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <div className="relative">
-        <div className="h-56 bg-gradient-to-r from-blue-600 to-purple-600"></div>
-        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="h-56 bg-gradient-to-r from-red-500 to-red-400"></div>
         <div className="absolute bottom-0 left-0 right-0 transform translate-y-1/2 flex justify-center">
           <div className="h-32 w-32 rounded-full border-4 border-white bg-white shadow-xl flex items-center justify-center text-gray-800 text-4xl font-bold">
             {userData?.name?.charAt(0) || user?.displayName?.charAt(0) || "U"}
@@ -167,7 +166,7 @@ function EditProfile() {
               onClick={() => setActiveSection("personal")}
               className={`px-4 py-2 rounded-md font-medium transition ${
                 activeSection === "personal"
-                  ? "bg-blue-600 text-white"
+                  ? "bg-red-600 text-white"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >
@@ -177,7 +176,7 @@ function EditProfile() {
               onClick={() => setActiveSection("health")}
               className={`px-4 py-2 rounded-md font-medium transition ${
                 activeSection === "health"
-                  ? "bg-blue-600 text-white"
+                  ? "bg-red-600 text-white"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >
@@ -187,7 +186,7 @@ function EditProfile() {
               onClick={() => setActiveSection("preferences")}
               className={`px-4 py-2 rounded-md font-medium transition ${
                 activeSection === "preferences"
-                  ? "bg-blue-600 text-white"
+                  ? "bg-red-600 text-white"
                   : "text-gray-700 hover:bg-gray-100"
               }`}
             >
@@ -202,7 +201,7 @@ function EditProfile() {
             {activeSection === "personal" && (
               <div className="p-8">
                 <div className="flex items-center mb-6">
-                  <User size={24} className="text-blue-600 mr-3" />
+                  <User size={24} className="text-red-600 mr-3" />
                   <h2 className="text-xl font-semibold text-gray-800">
                     Personal Information
                   </h2>
@@ -222,7 +221,7 @@ function EditProfile() {
                       id="name"
                       value={formData?.name}
                       onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg "
                       required
                     />
                   </div>
@@ -240,7 +239,7 @@ function EditProfile() {
                       id="gender"
                       value={formData?.gender}
                       onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg "
                       required
                     >
                       <option value="">Select Gender</option>
@@ -269,7 +268,7 @@ function EditProfile() {
                           : ""
                       }
                       onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 "
                     />
                   </div>
 
@@ -288,7 +287,7 @@ function EditProfile() {
                       id="phone"
                       value={formData?.phone}
                       onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 "
                       required
                     />
                   </div>
@@ -308,7 +307,7 @@ function EditProfile() {
                       id="address"
                       value={formData?.address}
                       onChange={handleChange}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 "
                       required
                     />
                   </div>
@@ -369,7 +368,7 @@ function EditProfile() {
                             onChange={handleChange}
                             className="sr-only peer"
                           />
-                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
                         </label>
                       </div>
                     </div>
@@ -390,7 +389,7 @@ function EditProfile() {
                             onChange={handleChange}
                             className="sr-only peer"
                           />
-                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
                         </label>
                       </div>
 
@@ -403,7 +402,7 @@ function EditProfile() {
                             name="critical_disease_description"
                             value={formData?.critical_disease_description}
                             onChange={handleChange}
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full p-3 border border-gray-300 rounded-lg "
                             rows={3}
                             placeholder="Describe your medical condition here..."
                           />
@@ -419,14 +418,14 @@ function EditProfile() {
             {activeSection === "preferences" && (
               <div className="p-8">
                 <div className="flex items-center mb-6">
-                  <Edit size={24} className="text-purple-600 mr-3" />
+                  <Edit size={24} className="text-red-600 mr-3" />
                   <h2 className="text-xl font-semibold text-gray-800">
                     Preferences
                   </h2>
                 </div>
                 <div className="grid grid-cols-1 gap-6">
                   {/* Donation Availability */}
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl">
+                  <div className="bg-gradient-to-r from-red-50 to-red-50 p-6 rounded-xl">
                     <h3 className="text-lg font-medium text-gray-800 mb-4">
                       Donation Status
                     </h3>
@@ -496,7 +495,7 @@ function EditProfile() {
                           onChange={handleChange}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                       </label>
                     </div>
                   </div>
@@ -519,7 +518,7 @@ function EditProfile() {
                         name="notificationPreference"
                         value={formData?.notificationPreference}
                         onChange={handleChange}
-                        className="mt-4 md:mt-0 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="mt-4 md:mt-0 px-4 py-2 border border-gray-300 rounded-lg"
                       >
                         <option value="Yes">Yes, notify me</option>
                         <option value="No">No, don't notify me</option>
@@ -543,7 +542,6 @@ function EditProfile() {
                 <button
                   type="button"
                   onClick={() => {
-                    // Reset form logic here
                     const resetData = userData
                       ? {
                           name: userData?.name || "",
@@ -576,7 +574,7 @@ function EditProfile() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                  className="px-6 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-200"
                   disabled={loading}
                 >
                   {loading ? (
@@ -596,6 +594,5 @@ function EditProfile() {
     </div>
   );
 }
-
 
 export default withAuth(EditProfile);

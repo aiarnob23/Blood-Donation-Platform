@@ -60,7 +60,7 @@ function Donate() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<
     "banks" | "requests" | "campaigns"
-  >("banks");
+  >("requests");
   const [searchTerm, setSearchTerm] = useState("");
   const [bloodGroupFilter, setBloodGroupFilter] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
@@ -166,7 +166,7 @@ function Donate() {
   };
 
   return (
-    <div className="container min-h-[calc(100vh-200px)] mx-auto px-4 py-8">
+    <div className="container min-h-dvh mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-8">
         Donate Blood & Save Lives
       </h1>
@@ -214,7 +214,7 @@ function Donate() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b mb-6">
+      <div className="flex mb-6">
         <button
           className={`px-4 py-2 font-medium ${
             activeTab === "banks"
@@ -408,7 +408,7 @@ function Donate() {
                             Profile
                           </Link>
                           <Link
-                            href={`/chat/${post?.user}`}
+                            href={`/chat/${selfId}${post?.user}`}
                             className="flex-1 cursor-pointer bg-white border border-red-600 text-red-600 py-2 rounded-md hover:bg-red-50 transition-colors flex items-center justify-center gap-1"
                           >
                             <MessageCircle size={16} />

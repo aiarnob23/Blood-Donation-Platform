@@ -1,6 +1,5 @@
 "use client";
 
-
 import { getUserInfoByEmail } from "@/service/userService";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
@@ -47,9 +46,9 @@ function SelfProfile() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-12 h-12 border-4 border-t-blue-500 border-b-blue-500 border-gray-200 rounded-full animate-spin"></div>
+          <div className="w-12 h-12 border-4 border-t-red-500 border-red-blue-500 border-gray-200 rounded-full animate-spin"></div>
           <div className="text-xl font-medium text-gray-700">
-            Loading your profile...
+            Loading profile...
           </div>
         </div>
       </div>
@@ -70,11 +69,11 @@ function SelfProfile() {
           {/* Header */}
           <div className="relative">
             {/* Banner Background */}
-            <div className="h-48 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500"></div>
+            <div className="h-48"></div>
 
             {/* Profile Info Overlay */}
-            <div className="absolute inset-0 flex items-end">
-              <div className="w-full px-6 pb-6 pt-24 bg-gradient-to-t from-black/70 to-transparent">
+            <div className="absolute bg-gradient-to-r from-red-500 to-red-400 inset-0 flex items-end">
+              <div className="w-full px-6 pb-6 pt-24 ">
                 <div className="flex flex-col md:flex-row md:items-end gap-6">
                   {/* Avatar */}
                   <div className="flex-shrink-0">
@@ -86,7 +85,7 @@ function SelfProfile() {
                   </div>
 
                   {/* User Details */}
-                  <div className="flex-1">
+                  <div className="flex-1 flex flex-col justify-start items-start space-y-[12px]">
                     <h1 className="text-2xl md:text-3xl font-bold text-white">
                       {userData?.name || user?.displayName}
                     </h1>
@@ -94,15 +93,15 @@ function SelfProfile() {
                       {userData?.email}
                     </p>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-600/90 text-white backdrop-blur-sm">
-                        {userData?.role || "User"}
+                      <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-600/90 text-white backdrop-blur-sm">
+                       {userData?.role =="Both" ? "Donor & Receiver" : `${userData?.role}`|| ""}
                       </div>
                       {userData?.isAvailableForDonation && (
-                        <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-500/90 text-white backdrop-blur-sm">
+                        <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-500 text-white backdrop-blur-sm">
                           Available for Donation
                         </div>
                       )}
-                      <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-pink-600/90 text-white backdrop-blur-sm">
+                      <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-600/90 text-white backdrop-blur-sm">
                         {userData?.blood_group || "Blood Group Not Set"}
                       </div>
                     </div>
@@ -148,7 +147,7 @@ function SelfProfile() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Personal Information */}
               <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-                <h2 className="text-xl font-semibold mb-4 text-indigo-800 flex items-center">
+                <h2 className="text-xl font-semibold mb-4 text-red-500 flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 mr-2"
@@ -225,7 +224,7 @@ function SelfProfile() {
 
               {/* Donation Information */}
               <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-                <h2 className="text-xl font-semibold mb-4 text-indigo-800 flex items-center">
+                <h2 className="text-xl font-semibold mb-4 text-red-500 flex items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 mr-2"
@@ -330,7 +329,7 @@ function SelfProfile() {
 
             {/* Account Status */}
             <div className="mt-6 bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h2 className="text-xl font-semibold mb-4 text-indigo-800 flex items-center">
+              <h2 className="text-xl font-semibold mb-4 text-red-500 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 mr-2"

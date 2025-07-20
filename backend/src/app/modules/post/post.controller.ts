@@ -12,8 +12,9 @@ const addBloodNeededPost = catchAsync(async (req, res) => {
     const blood_group = result?.bloodGroup;
     const usersEmails = await userServices.getUsersByBloodGroup(blood_group);
     const emailList = usersEmails.map((user) => user.email);
-    console.log(emailList);
-    await sendEmailNotification(emailList, blood_group, result?.location, result?.contactInfo);
+     if(emailList.length){
+        await sendEmailNotification(emailList, blood_group, result?.location, result?.contactInfo);
+     }
     sendResponse(res, {
       success: true,
       statusCode: 200,

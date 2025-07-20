@@ -167,15 +167,11 @@ export default function Search() {
 
   return (
     <div className="container mx-auto px-4 py-10 bg-gray-50 min-h-screen">
-      {/* Header with Title and Description */}
+      {/* Header  */}
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-bold mb-3 text-gray-800">
           Blood Donor Directory
         </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Find compatible blood donors quickly and easily. Use filters to narrow
-          your search and connect directly with potential donors.
-        </p>
       </div>
 
       {/* Search and Filter Box */}
@@ -316,7 +312,7 @@ export default function Search() {
         )}
       </div>
 
-      {/* View Mode and Results Count */}
+      {/* View Mode*/}
       {!loading && (
         <div className="mb-6 bg-white p-4 rounded-xl shadow-sm flex justify-between items-center">
           <p className="text-lg font-medium text-gray-700">
@@ -388,7 +384,7 @@ export default function Search() {
         </div>
       )}
 
-      {/* Loading, Empty State, or Results */}
+      {/* Loading, Empty State, Results */}
       {loading ? (
         <div className="flex flex-col justify-center items-center h-64 bg-white rounded-xl shadow-sm p-8">
           <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-red-500 mb-4"></div>
@@ -418,7 +414,7 @@ export default function Search() {
               key={user._id}
               className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-200 flex flex-col"
             >
-              {/* Blood Type and Availability Banner */}
+              {/* Blood Type */}
               <div className="bg-gradient-to-r from-red-100 to-red-200 p-4 relative">
                 <div className="absolute top-4 right-4">
                   <span
@@ -512,7 +508,7 @@ export default function Search() {
                     View Profile
                   </Link>
                   <Link
-                    href={`/chat/${user?._id}`}
+                    href={`/chat/${selfId}${user?._id}`}
                     className="flex items-center justify-center px-3 py-2.5 bg-green-500 hover:bg-green-700 text-white rounded-lg transition"
                   >
                     <MessageCircle className="h-5 w-5" />
@@ -606,16 +602,16 @@ export default function Search() {
                     </div>
                   </div>
 
-                  <div className="flex gap-3 mt-4">
+                  <div className="flex lg:gap-[30px] mt-4">
                     <Link
                       href={`/user-profile/${user?._id}`}
-                      className="flex-1 py-2.5 bg-blue-500 hover:bg-blue-700 text-white rounded-lg text-center text-sm font-medium transition"
+                      className="flex-1 flex justify-center items-center py-2.5 bg-blue-500 hover:bg-blue-700 text-white rounded-lg text-center text-sm font-medium transition"
                     >
                       View Profile
                     </Link>
                     <Link
                       href={`/chat/${user?._id}`}
-                      className="w-36 flex items-center justify-center px-4 py-2.5 bg-green-500 hover:bg-green-700 text-white rounded-lg transition gap-2"
+                      className="flex flex-1 items-center justify-center px-4 py-2.5 bg-green-500 hover:bg-green-700 text-white rounded-lg transition gap-2"
                     >
                       <MessageCircle className="h-5 w-5" />
                       Message

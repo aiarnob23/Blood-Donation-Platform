@@ -154,9 +154,11 @@ function ChatPage() {
               <p className="text-gray-500 text-sm mt-2 max-w-xs mx-auto">
                 Start chatting with someone to see your conversations here
               </p>
-              <button className="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition">
+            <div className="mt-[20px]">
+                <Link href='/donors' className="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition">
                 Start a new chat
-              </button>
+              </Link>
+            </div>
             </div>
           ) : (
             chatLists.map((chatInfo: ChatInfo) => (
@@ -166,7 +168,6 @@ function ChatPage() {
                     chatInfo.isRead ? "bg-white" : "bg-blue-50"
                   } hover:bg-gray-50`}
                 >
-                  {/* Avatar with initials */}
                   <div
                     className={`w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold text-white shadow-sm ${
                       chatInfo.isRead

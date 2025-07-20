@@ -15,29 +15,22 @@ export const initiateSocket = (server: HTTPServer) => {
 
    io.on("connection", (socket) => {
     console.log("user connected", socket.id);
-    // const { userId, role } = socket.handshake.query;
-    // console.log(userId, role);
-    // if (userId) {
-    //   socket.join(userId);
-    // }
-    // if (role) {
-    //   socket.join(role);
-    //   console.log(`Socket ${socket.id} joined room : ${role}`);
-    // }
+
     // --------handle join room------
-    socket.on("join-room", (room) => {
+    socket.on("join-room", (room , selfUserId) => {
       socket.join(room);
-      socket.emit("room-joined", room);
+      socket.emit("room-joined", room , selfUserId);
       console.log(`room no :  ${room}  socket id  ${socket.id}`);
     });
     // --------handle send messages-------
-    socket.on("send-message", (room, newMessage , selfUserId) => {
+    socket.on("send-message", (room, newMessage , selfUserId, receiverId) => {
       console.log("Received message:", newMessage, "for room:", room);
       io.to(room).emit("receive-message", {
         message: newMessage,
         senderId: selfUserId, 
         timestamp: new Date().toISOString(),
       });
+      socket.emit("fetch-unread",receiverId);
     });
 
     socket.on("disconnect", () => {

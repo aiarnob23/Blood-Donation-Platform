@@ -13,6 +13,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import withAuth from "@/lib/hoc/withAuth";
+import { errorMessage, successMessage } from "@/utils/alertMessages";
 
 function BloodRequestForm() {
   const [formData, setFormData] = useState({
@@ -45,22 +46,28 @@ function BloodRequestForm() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await postBloodRequest(formData);
+      const result = await postBloodRequest(formData);
       setIsSubmitted(true);
-      // Reset form after 5 seconds
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({
-          patientName: "",
-          patientAge: "",
-          gender: "",
-          bloodGroup: "",
-          dateNeeded: null,
-          location: "",
-          contactInfo: "",
-          notes: "",
-        });
-      }, 5000);
+      if (result?.success) {
+        setTimeout(() => {
+          setIsSubmitted(false);
+          successMessage("Request posted successfully");
+          setFormData({
+            patientName: "",
+            patientAge: "",
+            gender: "",
+            bloodGroup: "",
+            dateNeeded: null,
+            location: "",
+            contactInfo: "",
+            notes: "",
+          });
+
+          window.location.href = "/donate";
+        }, 2000);
+      } else {
+        errorMessage("Something went wrong, Please check form or connection");
+      }
     } catch (error) {
       console.error("Error submitting request:", error);
     } finally {
@@ -87,35 +94,8 @@ function BloodRequestForm() {
           </p>
         </div>
 
-        {/* Success Message */}
-        {isSubmitted && (
-          <div className="bg-green-50 border-l-4 border-green-500 p-4 m-6 rounded">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <svg
-                  className="h-5 w-5 text-green-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm font-medium text-green-800">
-                  Request submitted successfully! 
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-6">
             {/* Patient Information */}
             <div className="col-span-2 mb-2">
               <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4">
@@ -137,7 +117,7 @@ function BloodRequestForm() {
                 onChange={handleChange}
                 required
                 placeholder="Enter full name"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg  transition-all"
               />
             </div>
 
@@ -157,7 +137,7 @@ function BloodRequestForm() {
                 onChange={handleChange}
                 required
                 placeholder="Enter age"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg  transition-all"
               />
             </div>
 
@@ -173,7 +153,7 @@ function BloodRequestForm() {
                 value={formData.gender}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg  bg-white transition-all"
               >
                 <option value="">Select gender</option>
                 <option value="Male">Male</option>
@@ -185,7 +165,7 @@ function BloodRequestForm() {
             <div className="space-y-1">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <Droplet className="h-4 w-4 mr-1 text-red-500" />
+                  <Droplet className="h-4 w-4 mr-1 " />
                   Blood Group*
                 </span>
               </label>
@@ -194,7 +174,7 @@ function BloodRequestForm() {
                 value={formData.bloodGroup}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 bg-white transition-all"
               >
                 <option value="">Select blood group</option>
                 {bloodGroups.map((group) => (
@@ -224,12 +204,12 @@ function BloodRequestForm() {
                 onChange={handleDateChange}
                 dateFormat="d MMMM yyyy"
                 required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2  transition-all"
                 placeholderText="Pick a date"
                 minDate={new Date()}
                 wrapperClassName="w-full"
                 customInput={
-                  <input className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all" />
+                  <input className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 transition-all" />
                 }
               />
             </div>
@@ -248,7 +228,7 @@ function BloodRequestForm() {
                 onChange={handleChange}
                 required
                 placeholder="Hospital name and address"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg transition-all"
               />
             </div>
 
@@ -266,7 +246,7 @@ function BloodRequestForm() {
                 onChange={handleChange}
                 required
                 placeholder="Phone number or email"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg transition-all"
               />
             </div>
 
@@ -282,7 +262,7 @@ function BloodRequestForm() {
                 value={formData.notes}
                 onChange={handleChange}
                 placeholder="Any specific requirements or additional information"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+                className="w-full p-3 border border-gray-300 rounded-lg transition-all"
                 rows={3}
               />
             </div>

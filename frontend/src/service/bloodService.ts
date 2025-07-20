@@ -22,7 +22,7 @@ export const postBloodRequest = async (formData: any) => {
         body: JSON.stringify(postBody),
       });
       const res = await response.json();
-      console.log(res);
+      return res;
     }
   } catch (error) {
     console.log(error);

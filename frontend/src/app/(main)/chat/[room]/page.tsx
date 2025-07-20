@@ -64,6 +64,13 @@ function Chat() {
     }
   };
 
+  //handle mark as read
+  const HandleMarkAsRead = async(room : string, user : string) => {
+    console.log('mark as read krte hbe mcj gula sob', room, user);
+    const result = await updateMessageReadStatus(room , user);
+    console.log(result);
+  }
+
   //handle send messages//
   const handleSendMessages = async () => {
     console.log(selfUserId, " ", chatBuddyUserId);
@@ -84,7 +91,7 @@ function Chat() {
     }
     console.log(socket);
     console.log("Sending message:", newMessage, "to room:", room);
-    socket.emit("send-message", room, newMessage, selfUserId);
+    socket.emit("send-message", room, newMessage, selfUserId , chatBuddyUserId);
     const result = await addNewMessage(room as string, messagePayload);
     setNewMessage("");
   };
@@ -96,9 +103,9 @@ function Chat() {
     getChatBuddyDisplayName();
     getMessages();
     if (socket && room) {
-      socket.emit("join-room", room);
-      socket.on("room-joined", (room: any) => {
-        console.log(room);
+      socket.emit("join-room", room , selfUserId);
+      socket.on("room-joined", (room: any , activeUserId : string) => {
+      HandleMarkAsRead(room, activeUserId);
       });
       // receive message---------
       socket.on("receive-message", (data) => {

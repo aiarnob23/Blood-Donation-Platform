@@ -116,14 +116,13 @@ function UserProfile() {
     );
   }
 
-  console.log(userInfo);
 
   return (
     <div className="bg-gray-100 min-h-screen py-8 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header with basic info */}
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6 transition-all duration-300 hover:shadow-xl relative">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-8">
+          <div className="bg-gradient-to-r from-red-300 to-red-400 px-6 py-8">
             <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0">
               {/* Profile Image */}
               <div className="flex-shrink-0">
@@ -158,7 +157,7 @@ function UserProfile() {
                     {userInfo.isAvailableForDonation && (
                       <Link
                         href={`/appointment/request/${userInfo?._id}`}
-                        className="bg-green-500 cursor-pointer text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow-md flex items-center"
+                        className="bg-red-200 cursor-pointer text-slate-700 px-5 py-2.5 rounded-lg font-semibold text-sm shadow-md flex items-center"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -353,11 +352,11 @@ function UserProfile() {
         <div className="grid grid-cols-1 mt-12 md:grid-cols-3 gap-6">
           {/* Personal Details */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-blue-100">
+            <div className="bg-gradient-to-r from-red-200 to-red-100 px-6 py-4 border-b border-red-100">
               <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2 text-blue-600"
+                  className="h-5 w-5 mr-2 text-black-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -454,11 +453,11 @@ function UserProfile() {
 
           {/* Health Information */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-blue-100">
+            <div className="bg-gradient-to-r from-red-200 to-red-100 px-6 py-4 border-b border-blue-100">
               <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2 text-blue-600"
+                  className="h-5 w-5 mr-2 text-black-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -512,11 +511,11 @@ function UserProfile() {
 
           {/* Account Status */}
           <div className="bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-blue-100">
+            <div className="bg-gradient-to-r from-red-200 to-red-100 px-6 py-4 border-b border-blue-100">
               <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2 text-blue-600"
+                  className="h-5 w-5 mr-2 text-black-600"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -573,37 +572,6 @@ function UserProfile() {
             </div>
           </div>
         </div>
-
-        {/* Posts Section - If needed */}
-        {userInfo.posts && userInfo.posts.length > 0 && (
-          <div className="mt-6 bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-blue-100">
-              <h2 className="text-lg font-semibold text-gray-800 flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2 text-blue-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-                  />
-                </svg>
-                Posts ({userInfo.posts.length})
-              </h2>
-            </div>
-            <div className="p-6">
-              {/* Posts content would go here */}
-              <p className="text-gray-500">
-                This user has {userInfo.posts.length} posts
-              </p>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
