@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@plugin "daisyui";
+/* @plugin "daisyui"; */
 
 @theme {
   --font-sans: var(--font-geist-sans);
@@ -20,7 +20,7 @@
   color:#f04c4b;
 }
 .primary-btn {
-  background: linear-gradient(135deg, #e63946, #ff6b81); /* Red to Pink Gradient */
+  background: linear-gradient(135deg, #e63946, #ff6b81); 
   color: white;
   border: none;
   border-radius: 8px;
@@ -29,26 +29,26 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0px 4px 8px rgba(230, 57, 70, 0.3); /* Soft red shadow */
+  box-shadow: 0px 4px 8px rgba(230, 57, 70, 0.3); 
   
   text-align: center;
 }
 
 .primary-btn:hover {
-  background: linear-gradient(135deg, #d62839, #ff3b5c); /* Darker gradient on hover */
+  background: linear-gradient(135deg, #d62839, #ff3b5c);
   transform: translateY(-2px) scale(1.05); 
   box-shadow: 0px 6px 12px rgba(230, 57, 70, 0.4);
 }
 
 .primary-btn:active {
-  transform: translateY(1px) scale(0.98); /* Press effect */
+  transform: translateY(1px) scale(0.98); 
 }
 
 
 /* Disabled state */
 .primary-btn:disabled {
-  background-color: #F44336; /* Lighter red for disabled */
-  opacity: 0.6; /* Reduce opacity */
+  background-color: #F44336; 
+  opacity: 0.6; 
   cursor: not-allowed;
 }
 /* nav links styles */
@@ -64,7 +64,7 @@
 }
 
 .nav-link:hover {
-  color: #e63946; /* Red text on hover */
+  color: #e63946; 
 }
 
 .nav-link::after {
@@ -74,7 +74,7 @@
   bottom: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #e63946, #ff6b81); /* Red to Pink Underline */
+  background: linear-gradient(90deg, #e63946, #ff6b81);
   transition: all 0.3s ease-in-out;
   transform: translateX(-50%);
 }
@@ -113,4 +113,24 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Scrollbar styles  */
+::-webkit-scrollbar {
+  width: 12px; 
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background); 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f6586a;
+  border-radius: 6px; 
+  border: 3px solid var(--background); 
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #f53646; 
 }
