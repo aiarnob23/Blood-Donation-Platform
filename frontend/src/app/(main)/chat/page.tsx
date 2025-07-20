@@ -72,7 +72,6 @@ function ChatPage() {
               setError(null);
               getUsersChatLists(user?.email || "")
                 .then((res) => {
-                  // Sort chat lists by timestamp (newest first)
                   const sortedChats = [...res].sort(
                     (a: ChatInfo, b: ChatInfo) => {
                       return (
@@ -117,7 +116,7 @@ function ChatPage() {
   }
 
   return (
-    <div className="max-w-lg min-h-[700px] mx-auto p-6">
+    <div className="max-w-lg min-h-[calc(100vh-200px)] mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Chats</h2>
         {!isLoading && chatLists.length > 0 && (
