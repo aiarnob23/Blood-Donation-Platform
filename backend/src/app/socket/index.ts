@@ -25,7 +25,7 @@ export const initiateSocket = (server: HTTPServer) => {
     // --------handle send messages-------
     socket.on("send-message", (room, newMessage , selfUserId, receiverId) => {
       console.log("Received message:", newMessage, "for room:", room);
-      io.to(room).emit("receive-message", {
+      socket.broadcast.to(room).emit("receive-message", {
         message: newMessage,
         senderId: selfUserId, 
         timestamp: new Date().toISOString(),

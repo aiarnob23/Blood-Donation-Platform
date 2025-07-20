@@ -24,6 +24,7 @@ const Sidebar = () => {
 
   const handleLogOut = () => {
     Cookies.remove('admin');
+    localStorage.removeItem('admin');
     window.location.replace('/home');
   }
 

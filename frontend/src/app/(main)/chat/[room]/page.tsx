@@ -93,6 +93,11 @@ function Chat() {
     console.log("Sending message:", newMessage, "to room:", room);
     socket.emit("send-message", room, newMessage, selfUserId , chatBuddyUserId);
     const result = await addNewMessage(room as string, messagePayload);
+    if(result.success){
+       setMessages((prev) => [
+            ...prev,messagePayload
+          ]);
+    }
     setNewMessage("");
   };
   console.log(messages);
@@ -110,7 +115,7 @@ function Chat() {
       // receive message---------
       socket.on("receive-message", (data) => {
         console.log("Received message:", data);
-        if (data) {
+        if (data.senderId!=selfUserId) {
           setMessages((prev) => [
             ...prev,
             {
