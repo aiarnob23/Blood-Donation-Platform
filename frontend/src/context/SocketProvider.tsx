@@ -24,7 +24,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   const memoizedSocket = useMemo(() => {
-    const newSocket = io("http://localhost:4000", {
+    const newSocket = io("https://blood-donation-platform.onrender.com", {
       transports: ["websocket"],
       autoConnect: true,
       query: {
