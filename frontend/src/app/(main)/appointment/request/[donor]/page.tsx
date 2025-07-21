@@ -52,44 +52,45 @@ function ScheduleAppointment() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-10 px-4">
-      <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+    <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mt-4 sm:mt-6 md:mt-8 lg:mt-[20px] mx-auto mb-16 sm:mb-20 md:mb-24 lg:mb-[80px] py-6 sm:py-8 md:py-10 px-3 sm:px-4">
+      <div className="bg-white rounded-lg sm:rounded-xl shadow-xl sm:shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 py-8 px-8">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-white flex items-center">
-              <Droplet className="mr-2 h-6 w-6" />
-              Schedule Blood Donation
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white flex items-center">
+              <Droplet className="mr-1 sm:mr-2 h-5 w-5 sm:h-6 sm:w-6" />
+              <span className="hidden sm:inline">Schedule Blood Donation</span>
+              <span className="sm:hidden">Schedule Donation</span>
             </h2>
-            <div className="bg-white rounded-full p-2 shadow-md">
-              <Droplet className="h-6 w-6 text-blue-600" />
+            <div className="bg-white rounded-full p-1.5 sm:p-2 shadow-md">
+              <Droplet className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600" />
             </div>
           </div>
-          <p className="text-blue-100 mt-2">
+          <p className="text-blue-100 mt-2 text-sm sm:text-base">
             <Link
               href={`/user-profile/${donor}`}
               className="hover:underline flex items-center"
             >
-              <User className="mr-1 h-4 w-4" /> View Donor Profile
+              <User className="mr-1 h-3 w-3 sm:h-4 sm:w-4" /> View Donor Profile
             </Link>
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Patient Information */}
-            <div className="col-span-2">
-              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center">
-                <User className="mr-2 h-5 w-5 text-blue-600" />
+            <div className="col-span-1 md:col-span-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-2 mb-3 sm:mb-4 flex items-center">
+                <User className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                 Patient Information
               </h3>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <User className="h-4 w-4 mr-1 text-gray-500" />
+                  <User className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Patient Name*
                 </span>
               </label>
@@ -100,14 +101,14 @@ function ScheduleAppointment() {
                 onChange={handleChange}
                 required
                 placeholder="Enter full name"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <User className="h-4 w-4 mr-1 text-gray-500" />
+                  <User className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Patient Age*
                 </span>
               </label>
@@ -118,14 +119,14 @@ function ScheduleAppointment() {
                 onChange={handleChange}
                 required
                 placeholder="Enter age"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <User className="h-4 w-4 mr-1 text-gray-500" />
+                  <User className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Patient Gender*
                 </span>
               </label>
@@ -134,7 +135,7 @@ function ScheduleAppointment() {
                 value={formData.patientGender}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none bg-white"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none bg-white text-sm sm:text-base"
               >
                 <option value="">Select gender</option>
                 <option value="Male">Male</option>
@@ -143,10 +144,10 @@ function ScheduleAppointment() {
               </select>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <Droplet className="h-4 w-4 mr-1 text-red-500" />
+                  <Droplet className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-red-500" />
                   Blood Group*
                 </span>
               </label>
@@ -156,7 +157,7 @@ function ScheduleAppointment() {
                   value={formData.blood_group}
                   onChange={handleChange}
                   required
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none bg-white pr-10"
+                  className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all appearance-none bg-white pr-8 sm:pr-10 text-sm sm:text-base"
                 >
                   <option value="">Select blood group</option>
                   {bloodGroups.map((group) => (
@@ -165,14 +166,14 @@ function ScheduleAppointment() {
                     </option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
+                <ChevronDown className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400 pointer-events-none" />
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <Phone className="h-4 w-4 mr-1 text-gray-500" />
+                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Contact Number*
                 </span>
               </label>
@@ -183,22 +184,22 @@ function ScheduleAppointment() {
                 onChange={handleChange}
                 required
                 placeholder="Enter contact number"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
               />
             </div>
 
             {/* Donation Place & Disease Information */}
-            <div className="col-span-2">
-              <h3 className="text-lg font-semibold text-gray-800 border-b pb-2 mb-4 flex items-center mt-4">
-                <FileText className="mr-2 h-5 w-5 text-blue-600" />
+            <div className="col-span-1 md:col-span-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-2 mb-3 sm:mb-4 flex items-center mt-3 sm:mt-4">
+                <FileText className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
                 Additional Information
               </h3>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <MapPin className="h-4 w-4 mr-1 text-gray-500" />
+                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Donation Place*
                 </span>
               </label>
@@ -209,14 +210,14 @@ function ScheduleAppointment() {
                 onChange={handleChange}
                 required
                 placeholder="Enter donation place"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <Calendar className="h-4 w-4 mr-1 text-gray-500" />
+                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Appointment Date*
                 </span>
               </label>
@@ -226,14 +227,14 @@ function ScheduleAppointment() {
                 value={formData.date}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <FileText className="h-4 w-4 mr-1 text-gray-500" />
+                  <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Disease (if any)
                 </span>
               </label>
@@ -243,14 +244,14 @@ function ScheduleAppointment() {
                 value={formData.disease}
                 onChange={handleChange}
                 placeholder="Enter disease (if any)"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="space-y-1 col-span-1">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                 <span className="flex items-center">
-                  <FileText className="h-4 w-4 mr-1 text-gray-500" />
+                  <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 text-gray-500" />
                   Additional Notes
                 </span>
               </label>
@@ -260,18 +261,19 @@ function ScheduleAppointment() {
                 onChange={handleChange}
                 placeholder="Enter any additional notes"
                 rows={3}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base resize-none"
               />
             </div>
           </div>
 
-          <div className="pt-4">
+          <div className="pt-3 sm:pt-4">
             <button
               type="submit"
-              className="w-full py-4 px-6 rounded-lg text-white font-medium text-lg flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg"
+              className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-md sm:rounded-lg text-white font-medium text-base sm:text-lg flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg"
             >
-              <Calendar className="mr-2 h-5 w-5" />
-              Schedule Appointment
+              <Calendar className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+              <span className="hidden sm:inline">Schedule Appointment</span>
+              <span className="sm:hidden">Schedule</span>
             </button>
           </div>
         </form>

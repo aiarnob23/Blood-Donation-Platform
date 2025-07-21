@@ -121,8 +121,7 @@ const Posts = () => {
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
   const handleDeletePost = (postId: string) => {
-    // Delete logic....
-    console.log(`Delete post with ID: ${postId}`);
+   
   };
 
   return (

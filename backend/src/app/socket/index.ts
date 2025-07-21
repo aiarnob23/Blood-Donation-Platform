@@ -7,7 +7,7 @@ export const initiateSocket = (server: HTTPServer) => {
   io = new Server(server, {
     cors: {
       credentials: true,
-      origin: "http://localhost:3000",
+      origin: ["http://localhost:3000","https://blood-donation-platform-phi.vercel.app"],
       methods: ["GET", "POST", "PUT", "PATCH"],
     },
     transports: ["websocket", "polling"],

@@ -96,7 +96,7 @@ function UserProfile() {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-red-600"></div>
       </div>
     );
   }
@@ -122,7 +122,7 @@ function UserProfile() {
       <div className="max-w-5xl mx-auto">
         {/* Header with basic info */}
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6 transition-all duration-300 hover:shadow-xl relative">
-          <div className="bg-gradient-to-r from-red-300 to-red-400 px-6 py-8">
+          <div className="bg-gradient-to-r from-red-500 to-red-400 px-6 py-8">
             <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0">
               {/* Profile Image */}
               <div className="flex-shrink-0">

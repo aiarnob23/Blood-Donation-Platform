@@ -105,7 +105,7 @@ export default function AboutUs() {
 
   return (
     <section className="py-16 bg-white">
-      <div className="container mx-auto px-6 max-w-7xl overflow-hidden">
+      <div className="container mx-auto px-6 xl:max-w-[1400px] overflow-hidden">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-red-600 mb-4 about-heading">About Us</h2>
           <div className="w-24 h-1 bg-red-600 mx-auto"></div>

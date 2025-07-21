@@ -55,7 +55,7 @@ function ChatPage() {
   // Spinner Loading Component
   const LoadingSpinner = () => (
     <div className="flex flex-col items-center justify-center py-16">
-      <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+      <div className="w-12 h-12 border-4 border-red-200 border-t-red-600 rounded-full animate-spin mb-4"></div>
       <p className="text-gray-500 font-medium">Loading conversations...</p>
     </div>
   );
@@ -120,7 +120,7 @@ function ChatPage() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Chats</h2>
         {!isLoading && chatLists.length > 0 && (
-          <div className="px-3 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
+          <div className="px-3 py-1 bg-red-50 rounded-full text-sm text-blue-600 font-medium">
             {chatLists.length} conversation{chatLists.length !== 1 ? "s" : ""}
           </div>
         )}

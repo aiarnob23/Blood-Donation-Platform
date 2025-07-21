@@ -49,7 +49,6 @@ export default function withAuth(Component: any) {
             <div className="spinner">
               <div className="h-12 w-12 rounded-full border-4 border-gray-200 border-t-red-500 animate-spin"></div>
             </div>
-            <p className="mt-4 text-gray-600">Verifying authentication...</p>
           </div>
         </div>
       );

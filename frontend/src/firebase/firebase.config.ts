@@ -1,4 +1,3 @@
-
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
@@ -12,7 +11,6 @@ const firebaseConfig = {
   appId:process.env.NEXT_PUBLIC_APPID,
 };
 
-console.log(process.env.APIKEY);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

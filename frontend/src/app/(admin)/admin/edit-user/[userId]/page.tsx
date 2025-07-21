@@ -135,7 +135,6 @@ const EditUserProfile = withAdminAuth(() => {
     setSuccessMessage(null);
 
     try {
-       console.log('trying to update ' , userData);
        const result = await updateUserDetails(userId as string, userData);
        if (result && !result.error) {
          setSuccessMessage("User profile updated successfully!");

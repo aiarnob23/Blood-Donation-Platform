@@ -166,7 +166,7 @@ function Donate() {
   };
 
   return (
-    <div className="container min-h-dvh mx-auto px-4 py-8">
+    <div className="container mt-[20px] min-h-dvh xl:max-w-[1400px] mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-8">
         Donate Blood & Save Lives
       </h1>

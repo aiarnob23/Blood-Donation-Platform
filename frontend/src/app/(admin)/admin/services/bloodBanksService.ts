@@ -5,7 +5,6 @@ export const getAllBloodBanks = async () => {
   try {
     const response = await fetch(`${serverBaseUrl}/blood-banks/get-all`);
     const data = await response.json();
-    console.log(data);
     return data?.data;
   } catch (error) {
     console.log(error);
