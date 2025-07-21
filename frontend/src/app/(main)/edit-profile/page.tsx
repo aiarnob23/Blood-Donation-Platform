@@ -122,16 +122,7 @@ function EditProfile() {
   const bloodGroups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <div className="relative">
-        <div className="h-56 bg-gradient-to-r from-red-500 to-red-400"></div>
-        <div className="absolute bottom-0 left-0 right-0 transform translate-y-1/2 flex justify-center">
-          <div className="h-32 w-32 rounded-full border-4 border-white bg-white shadow-xl flex items-center justify-center text-gray-800 text-4xl font-bold">
-            {userData?.name?.charAt(0) || user?.displayName?.charAt(0) || "U"}
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-100 pb-[80px]">
 
       {/* Notification Toast */}
       {notification.show && (

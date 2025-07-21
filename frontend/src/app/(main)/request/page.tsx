@@ -76,7 +76,7 @@ function BloodRequestForm() {
   };
 
   return (
-    <div className="max-w-3xl min-h-[calc(100vh-200px)] mx-auto py-10 px-4">
+    <div className="max-w-3xl mb-[80px] min-h-[calc(100vh-200px)] mx-auto py-10 px-4">
       <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="bg-red-600 py-6 px-8">

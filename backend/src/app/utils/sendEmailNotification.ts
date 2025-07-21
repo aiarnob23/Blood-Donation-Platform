@@ -66,11 +66,8 @@ Blood Donation Team`,
   }
 };
 
-
 //new appointment request notification
-export const sendAppointmentNotification = async (
-  donorEmail: string,
-) => {
+export const sendAppointmentNotification = async (donorEmail: string) => {
   if (!donorEmail) {
     throw new Error("Donor email is required");
   }
@@ -94,31 +91,31 @@ export const sendAppointmentNotification = async (
 You have a new appointment request for blood donation.
 
 
-Please visit your appointment page to view details and confirm your availability.
+Please visit https://blood-donation-platform-phi.vercel.app/appointment/status to view details and confirm your availability.
 
 Thank you for your help in saving lives!
 
 Best Regards,
 Blood Donation Team`,
     html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <h2 style="color: #e53e3e;">New Appointment Request</h2>
-      </div>
-      
-      <p>Dear donor,</p>
-      
-      <p>You have a new appointment request for blood donation.</p>
-      
-      <p>Please visit your appointment page to view details and confirm your availability.</p>
-      
-      <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 20px 0;">
-        <p style="margin: 0; text-align: center; font-style: italic;">Thank you for your help in saving lives!</p>
-      </div>
-      
-      <p>Best Regards,<br>Blood Donation Team</p>
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="color: #e53e3e;">New Appointment Request</h2>
     </div>
-  `,
+    
+    <p>Dear donor,</p>
+    
+    <p>You have a new appointment request for blood donation.</p>
+    
+    <p>Please visit <a href="https://blood-donation-platform-phi.vercel.app/appointment/status" style="color: #e53e3e; text-decoration: none;">our appointment status page</a> to view details and confirm your availability.</p>
+    
+    <div style="background-color: #f7fafc; padding: 15px; border-radius: 5px; margin: 20px 0;">
+      <p style="margin: 0; text-align: center; font-style: italic;">Thank you for your help in saving lives!</p>
+    </div>
+    
+    <p>Best Regards,<br>Blood Donation Team</p>
+  </div>
+`,
   };
 
   try {

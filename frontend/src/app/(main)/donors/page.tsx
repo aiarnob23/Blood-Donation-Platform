@@ -166,7 +166,7 @@ export default function Search() {
   };
 
   return (
-    <div className="container mt-[20px] xl:max-w-[1400px] mx-auto px-4 py-10 bg-gray-50 min-h-screen">
+    <div className="container mb-[80px] mt-[20px] xl:max-w-[1400px] mx-auto px-4 py-10 bg-gray-50 min-h-screen rounded-[12px]">
       {/* Header  */}
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-bold mb-3 text-gray-800">
