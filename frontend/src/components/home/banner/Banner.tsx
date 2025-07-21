@@ -58,7 +58,7 @@ export default function Banner() {
         <h2 className="banner-h2 text-primary xl:leading-[90px] text-[34px] md:text-[56px] xl:text-[76px] font-bold">
           Share Hope, Share Life. <br /> Become a Blood Donor!
         </h2>
-        <div className="banner-content text-[16px] xl:text-[22px] font-semibold flex text-secondary flex-col gap-[8px]">
+        <div className="banner-content text-[16px] xl:text-[22px] font-semibold flex text-secondary flex-col gap-[8px] w-[90%] md:w-[80%] lg:w-[60%] xl:w-full">
           <p className="leading-[40px]">
             Every year, millions of patients rely on blood donations for
             life-saving treatments.
