@@ -80,6 +80,7 @@ function Chat() {
       message: newMessage,
       isRead: false,
     };
+    setNewMessage("");
     if (!newMessage.trim()) {
       console.log("Message is empty");
       return;
@@ -98,7 +99,6 @@ function Chat() {
             ...prev,messagePayload
           ]);
     }
-    setNewMessage("");
   };
   console.log(messages);
 

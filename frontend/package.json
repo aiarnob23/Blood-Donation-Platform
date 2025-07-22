@@ -21,6 +21,7 @@
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "recharts": "^2.15.2",
+    "redux-persist": "^6.0.0",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.6.13"
@@ -33,6 +34,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/redux-persist": "^4.0.0",
     "daisyui": "^5.0.0-beta.9",
     "eslint": "^9.22.0",
     "eslint-config-next": "15.2.0",
