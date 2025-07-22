@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   Calendar,
   User,
@@ -15,13 +16,12 @@ import {
 import { postAppointmentRequest } from "@/service/appointmentService";
 import { successMessage } from "@/utils/alertMessages";
 import withAuth from "@/lib/hoc/withAuth";
-
-
+import DatePicker from "react-datepicker";
 
 const bloodGroups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 function ScheduleAppointment() {
   const { donor } = useParams();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     patientName: "",
     patientAge: "",
     patientGender: "",
@@ -30,20 +30,32 @@ function ScheduleAppointment() {
     location: "",
     disease: "",
     additional_notes: "",
-    date: "",
+    date: null,
   });
 
-  const handleChange = (e : any) => {
+  const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e : any) => {
+  const handleDateChange = (date: Date | null) => {
+    setFormData({ ...formData, date: date });
+  };
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const result = await postAppointmentRequest(donor as string, formData);
+      const formattedData = {
+        ...formData,
+        date: formData.date ? formData.date.toISOString().split("T")[0] : "",
+      };
+
+      const result = await postAppointmentRequest(
+        donor as string,
+        formattedData
+      );
       if (result.success) {
         successMessage("Appointment Request Sent");
-        window.location.replace('/appointment/status');
+        window.location.replace("/appointment/status");
       }
     } catch (error) {
       console.error("Error scheduling appointment:", error);
@@ -77,7 +89,10 @@ function ScheduleAppointment() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {/* Patient Information */}
             <div className="col-span-1 md:col-span-2">
@@ -192,7 +207,7 @@ function ScheduleAppointment() {
             <div className="col-span-1 md:col-span-2">
               <h3 className="text-base sm:text-lg font-semibold text-gray-800 border-b pb-2 mb-3 sm:mb-4 flex items-center mt-3 sm:mt-4">
                 <FileText className="mr-1 sm:mr-2 h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
-                Additional Information
+                Donation Information
               </h3>
             </div>
 
@@ -221,13 +236,18 @@ function ScheduleAppointment() {
                   Appointment Date*
                 </span>
               </label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
+              <DatePicker
+                selected={formData.date}
+                onChange={handleDateChange}
+                dateFormat="d MMMM yyyy"
                 required
-                className="w-full p-2.5 sm:p-3 border border-gray-300 rounded-md sm:rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm sm:text-base"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                placeholderText="Pick a date"
+                minDate={new Date()}
+                wrapperClassName="w-full"
+                customInput={
+                  <input className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
+                }
               />
             </div>
 

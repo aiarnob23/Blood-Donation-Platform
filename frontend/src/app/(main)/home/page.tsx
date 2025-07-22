@@ -5,7 +5,7 @@ import FAQ from "@/components/home/faq/Faq";
 export default function Home() {
   return (
       <div>
-        <div className="mx-auto">
+        <div className="mx-auto mb-[80px]">
         <Banner />
         <AboutUs />
         <FAQ/>

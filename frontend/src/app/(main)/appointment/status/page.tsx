@@ -136,7 +136,7 @@ function ViewAppointments() {
 
   if (isLoading) {
     return (
-      <div className="container min-h-screen xl:max-w-[1400px] mt-[20px] mx-auto px-4 py-8">
+      <div className="container  min-h-screen xl:max-w-[1400px] mt-[20px] mx-auto px-4 py-8">
         <h1 className="text-[20px] font-bold text-black mb-6">
           Blood Donation Appointments
         </h1>
@@ -151,7 +151,7 @@ function ViewAppointments() {
   }
 
   return (
-    <div className="container xl:max-w-[1400px] mt-[20px] mx-auto min-h-[calc(100vh-200px)] px-4 py-8">
+    <div className="container mb-[80px] xl:max-w-[1400px] mt-[20px] mx-auto min-h-[calc(100vh-200px)] px-4 py-8">
       <h1 className="text-[20px] font-bold text-black mb-6">
         Blood Donation Appointments
       </h1>
