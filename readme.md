@@ -1,6 +1,6 @@
 # 🩸 Life Saver Connect
 
-**Life Saver Connect** is a full-featured blood donation platform built with the MERN stack and Next.js. It provides a seamless experience for donors, recipients, and admins through smart matching, real-time communication, and efficient blood donation management.
+**Life Drop** is a full-featured blood donation platform built with the MERN stack and Next.js. It provides a seamless experience for donors, recipients, and admins through smart matching, real-time communication, and efficient blood donation management.
 
 ## 🚀 Features
 
@@ -43,19 +43,16 @@
 - **Notifications**: SMS / Email Integration
 
 - Screenshots:
-  ![Image](https://github.com/user-attachments/assets/a6f88ced-0072-4d1b-b5f4-3dbaa322ab3c)
-![Image](https://github.com/user-attachments/assets/48831758-3533-490b-9466-dbc155415bbf)
-![Image](https://github.com/user-attachments/assets/bc720e94-14c6-4c60-a98d-ae629f2c8d54)
-![Image](https://github.com/user-attachments/assets/e813b6dd-c839-402f-86c0-bf3b2bc2c853)
-![Image](https://github.com/user-attachments/assets/8cf2b477-e601-464a-af8d-dd25d84cc8d9)
-![Image](https://github.com/user-attachments/assets/71d28d65-1684-4fa9-ab84-6f52092b8453)
-![Image](https://github.com/user-attachments/assets/ecb3c342-5e80-41d7-8712-8750dba98fee)
-![Image](https://github.com/user-attachments/assets/710783d8-c62c-4444-aa56-6f5d1f91452c)
-![Image](https://github.com/user-attachments/assets/7b524de3-600f-4c66-bef5-cc9006c18c6f)
-![Image](https://github.com/user-attachments/assets/60c1d924-7c77-4285-9cba-768097039899)
-![Image](https://github.com/user-attachments/assets/502a6cd9-3e50-4907-9583-d1c777d13d3b)
-![Image](https://github.com/user-attachments/assets/815b26ac-3c4d-4770-a088-95046e4becd0)
-![Image](https://github.com/user-attachments/assets/bd5ac871-ee49-42da-b7c0-84175533603f)
+![Image](https://github.com/user-attachments/assets/3a6f260a-5287-433a-8238-7d2ed5493f05)
+![Image](https://github.com/user-attachments/assets/bdf597b2-78c3-4d5e-a933-d21c484b9da5)
+![Image](https://github.com/user-attachments/assets/502c4a5d-1ffe-4c27-a6bd-aed057f31034)
+![Image](https://github.com/user-attachments/assets/de33a2f8-622d-4d05-9b17-569a62b2ad56)
+![Image](https://github.com/user-attachments/assets/a0245c3c-ff80-4782-bf33-01bad4923b44)
+![Image](https://github.com/user-attachments/assets/9fa85b23-7950-4575-98ea-dc6de5ce35ad)
+![Image](https://github.com/user-attachments/assets/55128e6e-7555-427f-b1f0-105ef5100e30)
+![Image](https://github.com/user-attachments/assets/a4884ee3-9d02-4c2a-a583-4387935b2208)
+![Image](https://github.com/user-attachments/assets/20577b44-db02-4896-88fc-b071da136418)
+![Image](https://github.com/user-attachments/assets/f51f8c4e-d56a-403d-bfda-2cb3d0fcd32c)
 
 ---
 
