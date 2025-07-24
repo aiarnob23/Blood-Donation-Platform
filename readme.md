@@ -1,6 +1,6 @@
 # 🩸 Life Saver Connect
 
-**Life Saver Connect** is a full-featured blood donation platform built with the MERN stack and Next.js. It provides a seamless experience for donors, recipients, and admins through smart matching, real-time communication, and efficient blood donation management.
+**Life Drop** is a full-featured blood donation platform built with the MERN stack and Next.js. It provides a seamless experience for donors, recipients, and admins through smart matching, real-time communication, and efficient blood donation management.
 
 ## 🚀 Features
 
