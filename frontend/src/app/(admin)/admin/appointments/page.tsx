@@ -352,24 +352,22 @@ const Appointments = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-500">
                       <div>
-                        Donor:{" "}
                         <span>
                           <Link
                             className="text-blue-400"
                             href={`/user-profile/${appointment.donor}`}
                           >
-                            {appointment.donor}
+                            Donor
                           </Link>
                         </span>
                       </div>
                       <div>
-                        Applicant:{" "}
                         <span>
                           <Link
                             className="text-blue-400"
                             href={`/user-profile/${appointment.applicant}`}
                           >
-                            {appointment.applicant}
+                            Applicant
                           </Link>
                         </span>
                       </div>

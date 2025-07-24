@@ -175,7 +175,7 @@ function ChatPage() {
                         : "bg-gradient-to-br from-blue-500 to-blue-600"
                     }`}
                   >
-                    {chatInfo.chatBuddy[0]}
+                    {chatInfo.chatBuddy && chatInfo.chatBuddy[0]}
                   </div>
 
                   {/* Chat Details */}
